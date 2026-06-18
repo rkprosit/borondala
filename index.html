@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Borondala Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Boro<span>ndala</span></a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#video">Video</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" id="navEstimate">Get Estimate</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="subtitle">Photographer &amp; Filmmaker</span>
+    <h1>Capturing <span>Moments</span><br>That Last Forever</h1>
+    <p>Wedding, pre-wedding, birthday &amp; event photography — turning your special moments into timeless art.</p>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <a href="#portfolio" class="btn">View Portfolio</a>
+      <a href="#" class="btn btn-primary" id="heroEstimate">Get Estimate</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">About Me</span>
+      <h2>The Story Behind the Lens</h2>
+      <p>Every photograph tells a story — let me help you tell yours.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-image fade-in">
+        <div style="background: #1a1a1a; border-radius: 4px; aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; color: #555; font-size: 0.9rem;">Your Photo Here</div>
+      </div>
+      <div class="about-text fade-in">
+        <h3>Hi, I'm Your Photographer</h3>
+        <p>With years of experience capturing life's most precious moments, I specialize in wedding, pre-wedding, and event photography. My approach blends candid storytelling with artistic composition to create images that feel authentic and timeless.</p>
+        <p>Whether it's the tear in a father's eye during a wedding, the laughter at a birthday party, or the quiet intimacy of a pre-wedding shoot — I'm there to preserve it all.</p>
+        <div class="about-stats">
+          <div class="stat">
+            <h4>500+</h4>
+            <p>Weddings Covered</p>
+          </div>
+          <div class="stat">
+            <h4>8+</h4>
+            <p>Years Experience</p>
+          </div>
+          <div class="stat">
+            <h4>1.2K+</h4>
+            <p>Happy Clients</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio -->
+<section class="section" id="portfolio">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Portfolio</span>
+      <h2>My Work</h2>
+      <p>A curated selection of my favorite shots across different events.</p>
+    </div>
+    <div class="filter-bar fade-in">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="wedding">Wedding</button>
+      <button class="filter-btn" data-filter="prewedding">Pre-Wedding</button>
+      <button class="filter-btn" data-filter="birthday">Birthday</button>
+      <button class="filter-btn" data-filter="event">Events</button>
+    </div>
+    <div class="portfolio-grid">
+
+      <div class="portfolio-item fade-in wide" data-category="wedding">
+        <div style="background: #2a2a2a; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">Wedding Photo</div>
+        <div class="portfolio-overlay">
+          <h3>Elegant Wedding</h3>
+          <span>Wedding</span>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="prewedding">
+        <div style="background: #222; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">Pre-Wedding</div>
+        <div class="portfolio-overlay">
+          <h3>Sunset Love</h3>
+          <span>Pre-Wedding</span>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="birthday">
+        <div style="background: #1e1e1e; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">Birthday</div>
+        <div class="portfolio-overlay">
+          <h3>Sweet 16</h3>
+          <span>Birthday</span>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="wedding">
+        <div style="background: #262626; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">Wedding</div>
+        <div class="portfolio-overlay">
+          <h3>Royal Wedding</h3>
+          <span>Wedding</span>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="prewedding">
+        <div style="background: #2e2e2e; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">Pre-Wedding</div>
+        <div class="portfolio-overlay">
+          <h3>Garden Romance</h3>
+          <span>Pre-Wedding</span>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="event">
+        <div style="background: #1c1c1c; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">Event</div>
+        <div class="portfolio-overlay">
+          <h3>Corporate Event</h3>
+          <span>Events</span>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="birthday">
+        <div style="background: #242424; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">Birthday</div>
+        <div class="portfolio-overlay">
+          <h3>Kids Party</h3>
+          <span>Birthday</span>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="wedding">
+        <div style="background: #282828; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">Wedding</div>
+        <div class="portfolio-overlay">
+          <h3>Beach Wedding</h3>
+          <span>Wedding</span>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="event">
+        <div style="background: #202020; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">Event</div>
+        <div class="portfolio-overlay">
+          <h3>Festival</h3>
+          <span>Events</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Video -->
+<section class="section" id="video">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Videography</span>
+      <h2>Cinematic Films</h2>
+      <p>Beautifully crafted videos that tell your story in motion.</p>
+    </div>
+    <div class="video-grid">
+
+      <div class="video-item fade-in" data-src="https://www.w3schools.com/html/mov_bbb.mp4">
+        <div class="video-thumb">
+          <div style="background: #222; width:100%; height:100%; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; color:#555;">Wedding Highlight</div>
+          <div class="play-btn"></div>
+        </div>
+        <div class="video-info">
+          <h4>Wedding Highlight Reel</h4>
+          <span>Cinematic Wedding Film</span>
+        </div>
+      </div>
+
+      <div class="video-item fade-in" data-src="https://www.w3schools.com/html/mov_bbb.mp4">
+        <div class="video-thumb">
+          <div style="background: #1a1a1a; width:100%; height:100%; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; color:#555;">Pre-Wedding Film</div>
+          <div class="play-btn"></div>
+        </div>
+        <div class="video-info">
+          <h4>Pre-Wedding Love Story</h4>
+          <span>Short Film</span>
+        </div>
+      </div>
+
+      <div class="video-item fade-in" data-src="https://www.w3schools.com/html/mov_bbb.mp4">
+        <div class="video-thumb">
+          <div style="background: #222; width:100%; height:100%; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; color:#555;">Birthday Recap</div>
+          <div class="play-btn"></div>
+        </div>
+        <div class="video-info">
+          <h4>Birthday Celebration</h4>
+          <span>Event Recap</span>
+        </div>
+      </div>
+
+      <div class="video-item fade-in" data-src="https://www.w3schools.com/html/mov_bbb.mp4">
+        <div class="video-thumb">
+          <div style="background: #1e1e1e; width:100%; height:100%; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; color:#555;">Event Coverage</div>
+          <div class="play-btn"></div>
+        </div>
+        <div class="video-info">
+          <h4>Event Coverage</h4>
+          <span>Full Event Film</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section testimonials" id="testimonials">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Testimonials</span>
+      <h2>What Clients Say</h2>
+      <p>Kind words from the people I've had the pleasure of working with.</p>
+    </div>
+    <div class="testimonial-grid">
+
+      <div class="testimonial-card fade-in">
+        <p>"Absolutely breathtaking! He captured every special moment of our wedding perfectly. We cry every time we look through the album."</p>
+        <div class="testimonial-author">
+          <div style="width:40px;height:40px;border-radius:50%;background:#333;flex-shrink:0;"></div>
+          <div>
+            <h5>Sarah &amp; James</h5>
+            <span>Wedding, 2024</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card fade-in">
+        <p>"The pre-wedding shoot was an incredible experience. The photos are stunning — artistic, romantic, and so natural. Highly recommended!"</p>
+        <div class="testimonial-author">
+          <div style="width:40px;height:40px;border-radius:50%;background:#333;flex-shrink:0;"></div>
+          <div>
+            <h5>Priya &amp; Rahul</h5>
+            <span>Pre-Wedding, 2024</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card fade-in">
+        <p>"He made my daughter's 1st birthday so special. The candid shots of the kids playing, the cake smash — everything is perfect. Thank you!"</p>
+        <div class="testimonial-author">
+          <div style="width:40px;height:40px;border-radius:50%;background:#333;flex-shrink:0;"></div>
+          <div>
+            <h5>Ananya Sharma</h5>
+            <span>Birthday, 2024</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Packages -->
+<section class="section" id="packages">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Packages</span>
+      <h2>Choose Your Plan</h2>
+      <p>Flexible packages tailored to your needs. Custom quotes available for larger events.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+
+      <div class="fade-in" style="border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:40px 32px; text-align:center;">
+        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:var(--gray);">Basic</span>
+        <div style="margin:20px 0;">
+          <span style="font-family:var(--font-serif); font-size:2.5rem; color:var(--primary);">Starting</span>
+        </div>
+        <p style="color:var(--gray); font-size:0.9rem; margin-bottom:24px;">Perfect for small events &amp; birthday parties</p>
+        <ul style="list-style:none; text-align:left; color:var(--gray); font-size:0.85rem;">
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; 4 Hours Coverage</li>
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; 200+ Edited Photos</li>
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; Online Gallery</li>
+          <li style="padding:8px 0;">&#10003; Print-Ready Files</li>
+        </ul>
+        <a href="#" class="btn" style="margin-top:24px; width:100%;" onclick="openEstimate();return false;">Get Quote</a>
+      </div>
+
+      <div class="fade-in" style="border:1px solid var(--primary); border-radius:8px; padding:40px 32px; text-align:center; position:relative;">
+        <span style="position:absolute; top:12px; right:12px; background:var(--primary); color:var(--dark); padding:4px 12px; font-size:0.65rem; letter-spacing:1px; text-transform:uppercase; font-weight:500;">Popular</span>
+        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:var(--gray);">Standard</span>
+        <div style="margin:20px 0;">
+          <span style="font-family:var(--font-serif); font-size:2.5rem; color:var(--primary);">Popular</span>
+        </div>
+        <p style="color:var(--gray); font-size:0.9rem; margin-bottom:24px;">Great for pre-wedding &amp; intimate weddings</p>
+        <ul style="list-style:none; text-align:left; color:var(--gray); font-size:0.85rem;">
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; 8 Hours Coverage</li>
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; 500+ Edited Photos</li>
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; Online Gallery + USB</li>
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; 1 Videography Reel</li>
+          <li style="padding:8px 0;">&#10003; Print-Ready Files</li>
+        </ul>
+        <a href="#" class="btn btn-primary" style="margin-top:24px; width:100%;" onclick="openEstimate();return false;">Get Quote</a>
+      </div>
+
+      <div class="fade-in" style="border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:40px 32px; text-align:center;">
+        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:var(--gray);">Premium</span>
+        <div style="margin:20px 0;">
+          <span style="font-family:var(--font-serif); font-size:2.5rem; color:var(--primary);">Custom</span>
+        </div>
+        <p style="color:var(--gray); font-size:0.9rem; margin-bottom:24px;">Full-service for grand weddings &amp; events</p>
+        <ul style="list-style:none; text-align:left; color:var(--gray); font-size:0.85rem;">
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; Full Day Coverage</li>
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; 1000+ Edited Photos</li>
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; 2 Videographers</li>
+          <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">&#10003; Full Wedding Film</li>
+          <li style="padding:8px 0;">&#10003; Photo Album + USB</li>
+        </ul>
+        <a href="#" class="btn" style="margin-top:24px; width:100%;" onclick="openEstimate();return false;">Get Quote</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Contact</span>
+      <h2>Let's Work Together</h2>
+      <p>Have an event coming up? I'd love to hear about it.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <h3>Get in Touch</h3>
+        <p>Whether it's a wedding, pre-wedding shoot, birthday party, or any special event — let's create something beautiful together.</p>
+
+        <div class="contact-detail">
+          <div class="icon">&#9993;</div>
+          <div>
+            <h5>Email</h5>
+            <span>hello@borondala.com</span>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="icon">&#9742;</div>
+          <div>
+            <h5>Phone</h5>
+            <span>+91 98765 43210</span>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="icon">&#9906;</div>
+          <div>
+            <h5>Location</h5>
+            <span>Bangalore, India</span>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="icon">&#9201;</div>
+          <div>
+            <h5>Response Time</h5>
+            <span>Usually within 24 hours</span>
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-top:32px; flex-wrap:wrap;">
+          <a href="tel:+919876543210" class="btn" style="display:flex; align-items:center; gap:8px;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            Call Now
+          </a>
+          <a href="https://wa.me/919876543210" target="_blank" class="btn" style="display:flex; align-items:center; gap:8px;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+        <div style="display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;">
+          <a href="#" target="_blank" aria-label="Instagram" style="color:var(--gray); transition:color 0.3s; display:flex; align-items:center; gap:6px; font-size:0.85rem;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 01-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 017.8 2m-.2 2A3.6 3.6 0 004 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 003.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 010 2.5 1.25 1.25 0 010-2.5M12 7a5 5 0 110 10 5 5 0 010-10m0 2a3 3 0 100 6 3 3 0 000-6z"/></svg>
+            Instagram
+          </a>
+          <a href="#" target="_blank" aria-label="Facebook" style="color:var(--gray); transition:color 0.3s; display:flex; align-items:center; gap:6px; font-size:0.85rem;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.53-4.5-10.02-10-10.02z"/></svg>
+            Facebook
+          </a>
+          <a href="#" target="_blank" aria-label="X (Twitter)" style="color:var(--gray); transition:color 0.3s; display:flex; align-items:center; gap:6px; font-size:0.85rem;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            X (Twitter)
+          </a>
+          <a href="#" target="_blank" aria-label="YouTube" style="color:var(--gray); transition:color 0.3s; display:flex; align-items:center; gap:6px; font-size:0.85rem;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 00.5 6.19 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.81 3.02 3.02 0 002.12 2.14c1.88.55 9.38.55 9.38.55s7.5 0 9.38-.55a3.02 3.02 0 002.12-2.14c.33-1.9.5-3.82.5-5.81a31.6 31.6 0 00-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>
+            YouTube
+          </a>
+          <a href="#" target="_blank" aria-label="Pinterest" style="color:var(--gray); transition:color 0.3s; display:flex; align-items:center; gap:6px; font-size:0.85rem;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="M9.04 21.54c.96.29 1.93.46 2.96.46a10 10 0 0010-10A10 10 0 0012 2 10 10 0 002 12c0 4.25 2.67 7.9 6.44 9.34-.09-.78-.18-2.07 0-2.96l1.15-4.94s-.29-.58-.29-1.5c0-1.38.86-2.41 1.92-2.41.9 0 1.34.68 1.34 1.48 0 .9-.58 2.26-.88 3.51-.25 1.05.53 1.9 1.56 1.9 1.87 0 3.31-1.97 3.31-4.81 0-2.52-1.81-4.28-4.33-4.28-2.95 0-4.68 2.21-4.68 4.5 0 .89.34 1.85.77 2.37.09.1.1.2.07.31l-.3 1.22c-.05.21-.16.25-.38.15-1.44-.67-2.34-2.78-2.34-4.47 0-3.64 2.64-6.98 7.63-6.98 4.01 0 7.12 2.86 7.12 6.67 0 3.98-2.51 7.19-5.99 7.19-1.17 0-2.27-.6-2.65-1.32l-.72 2.75c-.26 1-.96 2.26-1.43 3.02z"/></svg>
+            Pinterest
+          </a>
+        </div>
+      </div>
+
+      <form class="contact-form fade-in" onsubmit="event.preventDefault(); alert('Thank you! I will get back to you soon.');">
+        <div class="form-row">
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email" required>
+        </div>
+        <input type="text" placeholder="Event Type (Wedding, Birthday, etc.)">
+        <input type="text" placeholder="Event Date">
+        <textarea placeholder="Tell me about your event..." required></textarea>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">Boro<span>ndala</span></div>
+  <p>Capturing moments that last a lifetime.</p>
+  <div class="social-links">
+    <a href="#" target="_blank" aria-label="Instagram" title="Instagram">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 01-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 017.8 2m-.2 2A3.6 3.6 0 004 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 003.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 010 2.5 1.25 1.25 0 010-2.5M12 7a5 5 0 110 10 5 5 0 010-10m0 2a3 3 0 100 6 3 3 0 000-6z"/></svg>
+    </a>
+    <a href="#" target="_blank" aria-label="Facebook" title="Facebook">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.53-4.5-10.02-10-10.02z"/></svg>
+    </a>
+    <a href="#" target="_blank" aria-label="X (Twitter)" title="X (Twitter)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a href="#" target="_blank" aria-label="YouTube" title="YouTube">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 00.5 6.19 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.81 3.02 3.02 0 002.12 2.14c1.88.55 9.38.55 9.38.55s7.5 0 9.38-.55a3.02 3.02 0 002.12-2.14c.33-1.9.5-3.82.5-5.81a31.6 31.6 0 00-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>
+    </a>
+
+    <a href="#" target="_blank" aria-label="Pinterest" title="Pinterest">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.04 21.54c.96.29 1.93.46 2.96.46a10 10 0 0010-10A10 10 0 0012 2 10 10 0 002 12c0 4.25 2.67 7.9 6.44 9.34-.09-.78-.18-2.07 0-2.96l1.15-4.94s-.29-.58-.29-1.5c0-1.38.86-2.41 1.92-2.41.9 0 1.34.68 1.34 1.48 0 .9-.58 2.26-.88 3.51-.25 1.05.53 1.9 1.56 1.9 1.87 0 3.31-1.97 3.31-4.81 0-2.52-1.81-4.28-4.33-4.28-2.95 0-4.68 2.21-4.68 4.5 0 .89.34 1.85.77 2.37.09.1.1.2.07.31l-.3 1.22c-.05.21-.16.25-.38.15-1.44-.67-2.34-2.78-2.34-4.47 0-3.64 2.64-6.98 7.63-6.98 4.01 0 7.12 2.86 7.12 6.67 0 3.98-2.51 7.19-5.99 7.19-1.17 0-2.27-.6-2.65-1.32l-.72 2.75c-.26 1-.96 2.26-1.43 3.02z"/></svg>
+    </a>
+  </div>
+  <p>&copy; 2025 Borondala Photography. All rights reserved.</p>
+</footer>
+
+<!-- Chatbot -->
+<div class="chatbot" id="chatbot">
+  <div class="chatbot-btn" id="chatbotBtn">
+    <svg class="chat-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h10v2H7zm0-3h10v2H7z"/></svg>
+    <svg class="close-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </div>
+  <div class="chatbot-window" id="chatbotWindow">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+        <div>
+          <h4>Borondala Assistant</h4>
+          <span>Online</span>
+        </div>
+      </div>
+      <button class="chatbot-close" id="chatbotClose">&times;</button>
+    </div>
+    <div class="chatbot-body" id="chatbotBody">
+      <div class="message bot">
+        <div class="msg-content">
+          Hi there! 👋 Welcome to Borondala Photography. How can I help you today?
+        </div>
+      </div>
+      <div class="message bot">
+        <div class="msg-content">
+          Here are some things you can ask me:
+        </div>
+      </div>
+      <div class="quick-replies" id="quickReplies">
+        <button data-query="services">Services</button>
+        <button data-query="pricing">Pricing</button>
+        <button data-query="booking">Booking</button>
+        <button data-query="portfolio">Portfolio</button>
+        <button data-query="contact">Contact</button>
+      </div>
+    </div>
+    <div class="chatbot-footer">
+      <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type a message..." autocomplete="off">
+      <button class="chatbot-send" id="chatbotSend">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Action Buttons -->
+<div class="fab-container">
+  <a href="https://wa.me/919876543210" target="_blank" class="fab fab-whatsapp" aria-label="WhatsApp" title="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <a href="tel:+919876543210" class="fab fab-call" aria-label="Call" title="Call Now">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+  </a>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close">&times;</button>
+  <button class="lightbox-nav lightbox-prev">&#8249;</button>
+  <img src="" alt="">
+  <button class="lightbox-nav lightbox-next">&#8250;</button>
+</div>
+
+<!-- Video Modal -->
+<div class="video-modal" id="videoModal">
+  <button class="lightbox-close">&times;</button>
+  <video controls></video>
+</div>
+
+<!-- Estimate Modal -->
+<div class="estimate-modal" id="estimateModal">
+  <div class="estimate-content">
+    <button class="estimate-close">&times;</button>
+    <div class="section-header" style="margin-bottom:40px;">
+      <span class="label">Get Estimate</span>
+      <h2>Request a Quote</h2>
+      <p>Tell me about your event and I'll get back to you with a custom estimate.</p>
+    </div>
+    <form class="estimate-form" id="estimateForm">
+      <div class="form-row">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+      </div>
+      <div class="form-row">
+        <input type="tel" placeholder="Phone Number">
+        <select>
+          <option value="">Event Type</option>
+          <option>Wedding</option>
+          <option>Pre-Wedding</option>
+          <option>Birthday</option>
+          <option>Corporate Event</option>
+          <option>Festival</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <input type="date" placeholder="Event Date">
+        <input type="number" placeholder="Approx. Hours" min="1">
+      </div>
+      <div class="form-row">
+        <input type="number" placeholder="Guest Count" min="1">
+        <select>
+          <option value="">Budget Range</option>
+          <option>Under 25,000</option>
+          <option>25,000 - 50,000</option>
+          <option>50,000 - 1,00,000</option>
+          <option>1,00,000 - 2,50,000</option>
+          <option>2,50,000+</option>
+        </select>
+      </div>
+      <div class="service-options">
+        <label><input type="checkbox" checked> Photography</label>
+        <label><input type="checkbox"> Videography</label>
+        <label><input type="checkbox"> Both (Photo + Video)</label>
+      </div>
+      <textarea placeholder="Tell me more about your event, specific requirements, or anything you'd like..." style="height:100px;"></textarea>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Submit Request</button>
+    </form>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
