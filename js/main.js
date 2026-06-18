@@ -21,7 +21,20 @@ navLinks.querySelectorAll('a').forEach(link => {
 
 // Portfolio filter
 const filterBtns = document.querySelectorAll('.filter-btn');
-const portfolioItems = document.querySelectorAll('.portfolio-item');
+const portfolioGrid = document.querySelector('.portfolio-grid');
+const portfolioItems = Array.from(document.querySelectorAll('.portfolio-item'));
+
+function shufflePortfolio() {
+  portfolioItems.forEach(item => {
+    item.classList.remove('wide', 'tall');
+    item.style.order = Math.floor(Math.random() * 1000);
+    if (Math.random() < 0.25) item.classList.add('wide');
+    if (Math.random() < 0.15) item.classList.add('tall');
+  });
+  portfolioItems.sort(() => Math.random() - 0.5).forEach(item => portfolioGrid.appendChild(item));
+}
+
+shufflePortfolio();
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
