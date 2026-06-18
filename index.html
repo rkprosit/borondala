@@ -419,14 +419,14 @@
         </div>
       </div>
 
-      <form class="contact-form fade-in" onsubmit="event.preventDefault(); alert('Thank you! I will get back to you soon.');">
+      <form class="contact-form fade-in" action="https://formsubmit.co/borondalaphotography@gmail.com" method="POST">
         <div class="form-row">
-          <input type="text" placeholder="Your Name" required>
-          <input type="email" placeholder="Your Email" required>
+          <input type="text" name="Name" placeholder="Your Name" required>
+          <input type="email" name="Email" placeholder="Your Email" required>
         </div>
-        <input type="text" placeholder="Event Type (Wedding, Birthday, etc.)">
-        <input type="text" placeholder="Event Date">
-        <textarea placeholder="Tell me about your event..." required></textarea>
+        <input type="text" name="Event Type" placeholder="Event Type (Wedding, Birthday, etc.)">
+        <input type="text" name="Event Date" placeholder="Event Date">
+        <textarea name="Message" placeholder="Tell me about your event..." required></textarea>
         <button type="submit" class="btn btn-primary">Send Message</button>
       </form>
     </div>
@@ -535,14 +535,14 @@
       <h2>Request a Quote</h2>
       <p>Tell me about your event and I'll get back to you with a custom estimate.</p>
     </div>
-    <form class="estimate-form" id="estimateForm" action="mailto:borondalaphotography@gmail.com" method="post" enctype="text/plain">
+    <form class="estimate-form" id="estimateForm" action="https://formsubmit.co/borondalaphotography@gmail.com" method="POST">
       <div class="form-row">
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
+        <input type="text" name="Name" placeholder="Your Name" required>
+        <input type="email" name="Email" placeholder="Your Email" required>
       </div>
       <div class="form-row">
-        <input type="tel" placeholder="Phone Number">
-        <select>
+        <input type="tel" name="Phone" placeholder="Phone Number">
+        <select name="Event Type">
           <option value="">Event Type</option>
           <option>Wedding</option>
           <option>Pre-Wedding</option>
@@ -553,12 +553,12 @@
         </select>
       </div>
       <div class="form-row">
-        <input type="date" placeholder="Event Date">
-        <input type="number" placeholder="Approx. Hours" min="1">
+        <input type="date" name="Event Date" placeholder="Event Date">
+        <input type="number" name="Hours" placeholder="Approx. Hours" min="1">
       </div>
       <div class="form-row">
-        <input type="number" placeholder="Guest Count" min="1">
-        <select>
+        <input type="number" name="Guest Count" placeholder="Guest Count" min="1">
+        <select name="Budget">
           <option value="">Budget Range</option>
           <option>Under 25,000</option>
           <option>25,000 - 50,000</option>
@@ -568,11 +568,11 @@
         </select>
       </div>
       <div class="service-options">
-        <label><input type="checkbox" checked> Photography</label>
-        <label><input type="checkbox"> Videography</label>
-        <label><input type="checkbox"> Both (Photo + Video)</label>
+        <label><input type="checkbox" name="Photography" checked> Photography</label>
+        <label><input type="checkbox" name="Videography"> Videography</label>
+        <label><input type="checkbox" name="Both"> Both (Photo + Video)</label>
       </div>
-      <textarea placeholder="Tell me more about your event, specific requirements, or anything you'd like..." style="height:100px;"></textarea>
+      <textarea name="Details" placeholder="Tell me more about your event, specific requirements, or anything you'd like..." style="height:100px;"></textarea>
       <button type="submit" class="btn btn-primary" style="width:100%;">Submit Request</button>
     </form>
   </div>
