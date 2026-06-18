@@ -377,6 +377,19 @@ nav.scrolled {
   gap: 12px;
 }
 
+.portfolio-grid.all-view {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.portfolio-grid.all-view .portfolio-item.wide {
+  grid-column: span 1;
+}
+
+.portfolio-grid.all-view .portfolio-item.tall {
+  grid-row: span 1;
+}
+
 .portfolio-item {
   position: relative;
   overflow: hidden;

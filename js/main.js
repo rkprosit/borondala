@@ -43,6 +43,13 @@ filterBtns.forEach(btn => {
 
     const filter = btn.dataset.filter;
 
+    if (filter === 'all') {
+      portfolioGrid.classList.add('all-view');
+    } else {
+      portfolioGrid.classList.remove('all-view');
+      shufflePortfolio();
+    }
+
     portfolioItems.forEach(item => {
       if (filter === 'all' || item.dataset.category === filter) {
         item.style.display = 'block';
