@@ -198,7 +198,7 @@ const responses = {
     "Head over to the **Portfolio** section above to see my latest work across weddings, pre-weddings, birthdays, and events!"
   ],
   contact: [
-    "You can reach me through any of these:\n\n📞 **Call:** +91 80136 38040 / +91 96418 50851\n💬 **WhatsApp:** +91 80136 38040\n📧 **Email:** hello@borondala.com\n📍 **Location:** Hooghly, West Bengal, India\n\nOr use the **Get Estimate** button to send me a detailed message!",
+    "You can reach me through any of these:\n\n📞 **Call:** +91 80136 38040 / +91 96418 50851\n💬 **WhatsApp:** +91 80136 38040\n📧 **Email:** borondalaphotography@gmail.com\n📍 **Location:** Hooghly, West Bengal, India\n\nOr use the **Get Estimate** button to send me a detailed message!",
     "I'm just a call or WhatsApp away! Check the **Contact** section or use the floating buttons on this page."
   ],
   thanks: [
