@@ -393,9 +393,9 @@
         </div>
       </div>
 
-      <div class="video-item fade-in" data-src="https://www.w3schools.com/html/mov_bbb.mp4">
+      <div class="video-item fade-in" data-src="https://youtu.be/e_8UWhTfjbI">
         <div class="video-thumb">
-          <div style="background: #1a1a1a; width:100%; height:100%; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; color:#555;">Pre-Wedding Film</div>
+          <img src="https://img.youtube.com/vi/e_8UWhTfjbI/maxresdefault.jpg" alt="Pre-Wedding Love Story" style="width:100%; height:100%; object-fit:cover;">
           <div class="play-btn"></div>
         </div>
         <div class="video-info">
@@ -717,7 +717,10 @@
 <!-- Video Modal -->
 <div class="video-modal" id="videoModal">
   <button class="lightbox-close">&times;</button>
-  <video controls></video>
+  <div class="video-wrapper">
+    <video controls></video>
+    <iframe src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:none;"></iframe>
+  </div>
 </div>
 
 <!-- Estimate Modal -->

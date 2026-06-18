@@ -118,13 +118,25 @@ document.addEventListener('keydown', (e) => {
 // Video modal
 const videoModal = document.getElementById('videoModal');
 const videoPlayer = videoModal.querySelector('video');
+const videoIframe = videoModal.querySelector('iframe');
 const videoClose = videoModal.querySelector('.lightbox-close');
 
 document.querySelectorAll('.video-item').forEach(item => {
   item.addEventListener('click', () => {
     const src = item.dataset.src;
     if (src) {
-      videoPlayer.src = src;
+      if (src.includes('youtube') || src.includes('youtu.be')) {
+        const id = src.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)?.[1];
+        if (id) {
+          videoIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+          videoIframe.style.display = 'block';
+          videoPlayer.style.display = 'none';
+        }
+      } else {
+        videoPlayer.src = src;
+        videoPlayer.style.display = 'block';
+        videoIframe.style.display = 'none';
+      }
       videoModal.classList.add('open');
       videoPlayer.play();
       document.body.style.overflow = 'hidden';
@@ -136,6 +148,9 @@ function closeVideo() {
   videoModal.classList.remove('open');
   videoPlayer.pause();
   videoPlayer.src = '';
+  videoIframe.src = '';
+  videoIframe.style.display = 'none';
+  videoPlayer.style.display = 'block';
   document.body.style.overflow = '';
 }
 
