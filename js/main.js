@@ -159,8 +159,10 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && estimateModal.classList.contains('open')) closeEstimate();
 });
 
-estimateForm.addEventListener('submit', (e) => {
+estimateForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+  const data = new FormData(estimateForm);
+  await fetch(estimateForm.action, { method: 'POST', body: data });
   alert('Thank you! I will review your request and get back to you within 24 hours with a custom estimate.');
   closeEstimate();
   estimateForm.reset();
