@@ -778,6 +778,11 @@ footer p {
   color: var(--primary);
 }
 
+.social-links a svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* Lightbox */
 .lightbox {
   position: fixed;
