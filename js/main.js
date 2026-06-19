@@ -104,7 +104,7 @@ function applyVideoVisibility() {
 function shufflePortfolio() {
   portfolioItems.forEach(item => {
     item.classList.remove('wide', 'tall');
-    item.style.order = Math.floor(Math.random() * 1000);
+    item.style.order = '';
     if (Math.random() < 0.25) item.classList.add('wide');
     if (Math.random() < 0.15) item.classList.add('tall');
   });
@@ -124,6 +124,9 @@ if (showMorePortfolio) {
   showMorePortfolio.addEventListener('click', () => {
     portfolioVisibleCount += SHOW_MORE_INCREMENT;
     applyPortfolioVisibility();
+    setTimeout(() => {
+      document.querySelector('.show-more-btn:not(.hidden)')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 50);
   });
 }
 
@@ -131,6 +134,9 @@ if (showMoreVideo) {
   showMoreVideo.addEventListener('click', () => {
     videoVisibleCount += SHOW_MORE_INCREMENT;
     applyVideoVisibility();
+    setTimeout(() => {
+      document.querySelector('.show-more-btn:not(.hidden)')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 50);
   });
 }
 
