@@ -99,17 +99,38 @@ filterBtns.forEach(btn => {
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = lightbox.querySelector('img');
 const lightboxClose = lightbox.querySelector('.lightbox-close');
+const lightboxPrev = lightbox.querySelector('.lightbox-prev');
+const lightboxNext = lightbox.querySelector('.lightbox-next');
+let currentIndex = 0;
+let lightboxImages = [];
+
+function getVisibleItems() {
+  const activeFilter = document.querySelector('.filter-btn.active')?.dataset?.filter || 'all';
+  const items = Array.from(document.querySelectorAll('.portfolio-item'));
+  return items.filter(item => {
+    if (activeFilter === 'all') return item.style.display !== 'none';
+    return item.dataset.category === activeFilter && item.style.display !== 'none';
+  });
+}
 
 document.querySelectorAll('.portfolio-item').forEach(item => {
   item.addEventListener('click', () => {
     const img = item.querySelector('img');
-    if (img) {
-      lightboxImg.src = img.src;
-      lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
+    if (!img) return;
+    const visible = getVisibleItems();
+    lightboxImages = visible.map(i => i.querySelector('img')?.src).filter(Boolean);
+    currentIndex = lightboxImages.indexOf(img.src);
+    if (currentIndex === -1) currentIndex = 0;
+    openLightbox();
   });
 });
+
+function openLightbox() {
+  if (!lightboxImages.length) return;
+  lightboxImg.src = lightboxImages[currentIndex];
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 
 function closeLightbox() {
   lightbox.classList.remove('open');
@@ -118,6 +139,16 @@ function closeLightbox() {
 
 lightboxClose.addEventListener('click', closeLightbox);
 
+lightboxPrev.addEventListener('click', () => {
+  currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+  lightboxImg.src = lightboxImages[currentIndex];
+});
+
+lightboxNext.addEventListener('click', () => {
+  currentIndex = (currentIndex + 1) % lightboxImages.length;
+  lightboxImg.src = lightboxImages[currentIndex];
+});
+
 lightbox.addEventListener('click', (e) => {
   if (e.target === lightbox) closeLightbox();
 });
@@ -125,6 +156,8 @@ lightbox.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (!lightbox.classList.contains('open')) return;
   if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') lightboxPrev.click();
+  if (e.key === 'ArrowRight') lightboxNext.click();
 });
 
 // Video modal
