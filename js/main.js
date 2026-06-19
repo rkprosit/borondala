@@ -150,7 +150,7 @@ document.querySelectorAll('.video-item').forEach(item => {
     const src = item.dataset.src;
     if (src) {
       if (src.includes('youtube') || src.includes('youtu.be')) {
-        const id = src.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)?.[1];
+        const id = src.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)?.[1];
         if (id) {
           videoIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
           videoIframe.style.display = 'block';
