@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Borondala Photography</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://www.borondalaphotography.in/404.html">
+  <link rel="icon" type="image/png" href="images/portfolio/logo1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #c9a96e;
+      --dark: #0a0a0a;
+      --darker: #050505;
+      --light: #f5f5f5;
+      --gray: #888;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      padding: 20px 0; transition: all 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(12px);
+      padding: 12px 0;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo img { height: 40px; width: auto; }
+    .nav-links { list-style: none; display: flex; gap: 32px; }
+    .nav-links a {
+      font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gray); transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--light); }
+
+    .error-section {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px;
+    }
+    .error-code {
+      font-family: var(--font-serif); font-size: 10rem; font-weight: 400;
+      color: var(--primary); line-height: 1; margin-bottom: 8px;
+    }
+    .error-sub {
+      font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 24px;
+    }
+    .error-title {
+      font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400;
+      color: var(--light); margin-bottom: 16px;
+    }
+    .error-text {
+      color: var(--gray); font-size: 0.95rem; max-width: 480px;
+      margin: 0 auto 40px;
+    }
+    .btn {
+      display: inline-block; padding: 14px 48px; border: 1px solid var(--primary);
+      background: transparent; color: var(--primary); font-size: 0.8rem;
+      letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+      transition: all 0.4s; font-family: var(--font-sans);
+    }
+    .btn:hover { background: var(--primary); color: var(--dark); }
+    .btn-primary {
+      background: var(--primary); color: var(--dark); border-color: var(--primary);
+    }
+    .btn-primary:hover { background: transparent; color: var(--primary); }
+
+    .error-line {
+      width: 60px; height: 1px; background: var(--primary);
+      margin: 0 auto 32px;
+    }
+
+    footer {
+      text-align: center; padding: 32px 24px;
+      color: var(--gray); font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    @media (max-width: 768px) {
+      .error-code { font-size: 6rem; }
+      .error-title { font-size: 1.3rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo"><img loading="lazy" decoding="async" src="images/portfolio/logo1.png" alt="Borondala"></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#portfolio">Portfolio</a></li>
+      <li><a href="/#video">Video</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="error-section">
+  <div class="container">
+    <div class="error-code">404</div>
+    <div class="error-sub">Page Not Found</div>
+    <div class="error-line"></div>
+    <h1 class="error-title">The Frame You're Looking For Doesn't Exist</h1>
+    <p class="error-text">This page may have been moved, deleted, or never existed. Let's get you back to the moments that matter.</p>
+    <a href="/" class="btn btn-primary">Back to Home</a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Borondala Photography. All rights reserved.</p>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 80);
+  });
+</script>
+
+</body>
+</html>

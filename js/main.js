@@ -36,8 +36,7 @@ function nextSlide() {
   slides[currentSlide].classList.add('active');
 }
 
-setInterval(nextSlide, 800);
-nextSlide();
+setInterval(nextSlide, 5000);
 
 setTimeout(() => {
   heroContent.classList.add('text-hidden');
@@ -47,6 +46,60 @@ setTimeout(() => {
 const filterBtns = document.querySelectorAll('.filter-btn');
 const portfolioGrid = document.querySelector('.portfolio-grid');
 const portfolioItems = Array.from(document.querySelectorAll('.portfolio-item'));
+const videoItems = Array.from(document.querySelectorAll('.video-item'));
+const showMorePortfolio = document.getElementById('showMorePortfolio');
+const showMoreVideo = document.getElementById('showMoreVideo');
+const showAllPortfolio = document.getElementById('showAllPortfolio');
+const showAllVideo = document.getElementById('showAllVideo');
+
+const INITIAL_SHOW = 8;
+const INITIAL_VIDEO = 4;
+const SHOW_MORE_INCREMENT = 4;
+
+let portfolioVisibleCount = INITIAL_SHOW;
+let videoVisibleCount = INITIAL_VIDEO;
+
+function applyPortfolioVisibility() {
+  const filter = document.querySelector('.filter-btn.active')?.dataset?.filter || 'all';
+  const items = filter === 'all' ? portfolioItems : portfolioItems.filter(i => i.dataset.category === filter);
+
+  portfolioItems.forEach(item => {
+    const match = filter === 'all' || item.dataset.category === filter;
+    if (!match) { item.style.display = 'none'; return; }
+    item.style.display = 'block';
+    item.style.opacity = '1';
+  });
+
+  items.forEach((item, i) => {
+    item.style.display = i < portfolioVisibleCount ? 'block' : 'none';
+  });
+
+  if (showMorePortfolio) {
+    const items = getFilteredItems();
+    showMorePortfolio.classList.toggle('hidden', portfolioVisibleCount >= items.length);
+  }
+  if (showAllPortfolio) {
+    const items = getFilteredItems();
+    showAllPortfolio.classList.toggle('hidden', portfolioVisibleCount >= items.length);
+  }
+}
+
+function getFilteredItems() {
+  const filter = document.querySelector('.filter-btn.active')?.dataset?.filter || 'all';
+  return filter === 'all' ? portfolioItems : portfolioItems.filter(i => i.dataset.category === filter);
+}
+
+function applyVideoVisibility() {
+  videoItems.forEach((item, i) => {
+    item.style.display = i < videoVisibleCount ? 'block' : 'none';
+  });
+  if (showMoreVideo) {
+    showMoreVideo.classList.toggle('hidden', videoVisibleCount >= videoItems.length);
+  }
+  if (showAllVideo) {
+    showAllVideo.classList.toggle('hidden', videoVisibleCount >= videoItems.length);
+  }
+}
 
 function shufflePortfolio() {
   portfolioItems.forEach(item => {
@@ -58,40 +111,50 @@ function shufflePortfolio() {
   portfolioItems.sort(() => Math.random() - 0.5).forEach(item => portfolioGrid.appendChild(item));
 }
 
-shufflePortfolio();
-
-const videoGrid = document.querySelector('.video-grid');
-const videoItems = Array.from(document.querySelectorAll('.video-item'));
-
 function shuffleVideos() {
-  videoItems.sort(() => Math.random() - 0.5).forEach(item => videoGrid.appendChild(item));
+  videoItems.sort(() => Math.random() - 0.5).forEach(item => document.querySelector('.video-grid').appendChild(item));
 }
 
+shufflePortfolio();
 shuffleVideos();
+applyPortfolioVisibility();
+applyVideoVisibility();
+
+if (showMorePortfolio) {
+  showMorePortfolio.addEventListener('click', () => {
+    portfolioVisibleCount += SHOW_MORE_INCREMENT;
+    applyPortfolioVisibility();
+  });
+}
+
+if (showMoreVideo) {
+  showMoreVideo.addEventListener('click', () => {
+    videoVisibleCount += SHOW_MORE_INCREMENT;
+    applyVideoVisibility();
+  });
+}
+
+if (showAllPortfolio) {
+  showAllPortfolio.addEventListener('click', () => {
+    portfolioVisibleCount = getFilteredItems().length;
+    applyPortfolioVisibility();
+  });
+}
+
+if (showAllVideo) {
+  showAllVideo.addEventListener('click', () => {
+    videoVisibleCount = videoItems.length;
+    applyVideoVisibility();
+  });
+}
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     filterBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-
-    const filter = btn.dataset.filter;
-
-    if (filter === 'all') {
-      portfolioGrid.classList.add('all-view');
-    } else {
-      portfolioGrid.classList.remove('all-view');
-      shufflePortfolio();
-    }
-
-    portfolioItems.forEach(item => {
-      if (filter === 'all' || item.dataset.category === filter) {
-        item.style.display = 'block';
-        setTimeout(() => item.style.opacity = '1', 10);
-      } else {
-        item.style.opacity = '0';
-        setTimeout(() => item.style.display = 'none', 300);
-      }
-    });
+    portfolioGrid.classList.toggle('all-view', btn.dataset.filter === 'all');
+    portfolioVisibleCount = INITIAL_SHOW;
+    applyPortfolioVisibility();
   });
 });
 

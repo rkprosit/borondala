@@ -20,6 +20,7 @@
   src: url('../fonts/erotique/ErotiqueTrial-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -27,6 +28,7 @@
   src: url('../fonts/erotique/ErotiqueTrial-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
+  font-display: swap;
 }
 
 html {
@@ -403,6 +405,30 @@ nav.scrolled {
   background: var(--primary);
   border-color: var(--primary);
   color: var(--dark);
+}
+
+.show-more-btn {
+  display: block;
+  margin: 40px auto 0;
+  padding: 14px 48px;
+  border: 1px solid var(--primary);
+  background: transparent;
+  color: var(--primary);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s;
+  font-family: var(--font-sans);
+}
+
+.show-more-btn:hover {
+  background: var(--primary);
+  color: var(--dark);
+}
+
+.show-more-btn.hidden {
+  display: none;
 }
 
 /* Portfolio Grid */
@@ -818,7 +844,8 @@ footer p {
     grid-template-columns: 1fr 1fr !important;
   }
 
-  .portfolio-grid {
+  .portfolio-grid,
+  .portfolio-grid.all-view {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -879,7 +906,8 @@ footer p {
     grid-template-columns: 1fr !important;
   }
 
-  .portfolio-grid {
+  .portfolio-grid,
+  .portfolio-grid.all-view {
     grid-template-columns: 1fr;
   }
 
