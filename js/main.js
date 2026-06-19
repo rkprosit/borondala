@@ -99,26 +99,17 @@ filterBtns.forEach(btn => {
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = lightbox.querySelector('img');
 const lightboxClose = lightbox.querySelector('.lightbox-close');
-const lightboxPrev = lightbox.querySelector('.lightbox-prev');
-const lightboxNext = lightbox.querySelector('.lightbox-next');
-let currentIndex = 0;
-let lightboxImages = [];
 
-document.querySelectorAll('.portfolio-item').forEach((item, index) => {
+document.querySelectorAll('.portfolio-item').forEach(item => {
   item.addEventListener('click', () => {
     const img = item.querySelector('img');
-    const allImgs = document.querySelectorAll('.portfolio-item img');
-    lightboxImages = Array.from(allImgs).map(i => i.src);
-    currentIndex = Array.from(allImgs).indexOf(img);
-    openLightbox(currentIndex);
+    if (img) {
+      lightboxImg.src = img.src;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
   });
 });
-
-function openLightbox(index) {
-  lightboxImg.src = lightboxImages[index];
-  lightbox.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
 
 function closeLightbox() {
   lightbox.classList.remove('open');
@@ -127,16 +118,6 @@ function closeLightbox() {
 
 lightboxClose.addEventListener('click', closeLightbox);
 
-lightboxPrev.addEventListener('click', () => {
-  currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length;
-  lightboxImg.src = lightboxImages[currentIndex];
-});
-
-lightboxNext.addEventListener('click', () => {
-  currentIndex = (currentIndex + 1) % lightboxImages.length;
-  lightboxImg.src = lightboxImages[currentIndex];
-});
-
 lightbox.addEventListener('click', (e) => {
   if (e.target === lightbox) closeLightbox();
 });
@@ -144,8 +125,6 @@ lightbox.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (!lightbox.classList.contains('open')) return;
   if (e.key === 'Escape') closeLightbox();
-  if (e.key === 'ArrowLeft') lightboxPrev.click();
-  if (e.key === 'ArrowRight') lightboxNext.click();
 });
 
 // Video modal

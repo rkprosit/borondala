@@ -788,22 +788,6 @@ footer p {
   line-height: 1;
 }
 
-.lightbox-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--light);
-  font-size: 2rem;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 16px;
-  font-family: var(--font-sans);
-}
-
-.lightbox-prev { left: 24px; }
-.lightbox-next { right: 24px; }
-
 /* Responsive */
 @media (max-width: 968px) {
   .about-grid,
