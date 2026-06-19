@@ -60,6 +60,15 @@ function shufflePortfolio() {
 
 shufflePortfolio();
 
+const videoGrid = document.querySelector('.video-grid');
+const videoItems = Array.from(document.querySelectorAll('.video-item'));
+
+function shuffleVideos() {
+  videoItems.sort(() => Math.random() - 0.5).forEach(item => videoGrid.appendChild(item));
+}
+
+shuffleVideos();
+
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     filterBtns.forEach(b => b.classList.remove('active'));
