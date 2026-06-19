@@ -181,7 +181,9 @@ nav.scrolled {
   to { transform: scale(1.1); }
 }
 
-.hero-content.text-hidden h1 {
+.hero-content.text-hidden h1,
+.hero-content.text-hidden .subtitle,
+.hero-content.text-hidden p {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1s ease, transform 1s ease;
