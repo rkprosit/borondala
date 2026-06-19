@@ -36,7 +36,8 @@ function nextSlide() {
   slides[currentSlide].classList.add('active');
 }
 
-setInterval(nextSlide, 3000);
+setInterval(nextSlide, 800);
+nextSlide();
 
 setTimeout(() => {
   heroContent.classList.add('text-hidden');

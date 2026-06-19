@@ -12,6 +12,21 @@
   --gray: #888;
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-erotique: 'Erotique', serif;
+}
+
+@font-face {
+  font-family: 'Erotique';
+  src: url('../fonts/erotique/ErotiqueTrial-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Erotique';
+  src: url('../fonts/erotique/ErotiqueTrial-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
 
 html {
@@ -153,7 +168,7 @@ nav.scrolled {
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transition: opacity 1.5s ease;
+  transition: opacity 0.5s ease;
   animation: heroZoom 20s ease-in-out infinite alternate;
 }
 
@@ -166,10 +181,7 @@ nav.scrolled {
   to { transform: scale(1.1); }
 }
 
-.hero-content.text-hidden .subtitle,
-.hero-content.text-hidden h1,
-.hero-content.text-hidden p,
-.hero-content.text-hidden div {
+.hero-content.text-hidden h1 {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1s ease, transform 1s ease;
@@ -199,11 +211,12 @@ nav.scrolled {
 }
 
 .hero-content h1 {
-  font-family: var(--font-serif);
+  font-family: var(--font-erotique);
   font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 400;
+  font-weight: bold;
   line-height: 1.15;
   margin-bottom: 24px;
+  letter-spacing: 4px;
 }
 
 .hero-content h1 span {
@@ -212,7 +225,7 @@ nav.scrolled {
 
 .hero-content p {
   font-size: 1.1rem;
-  color: var(--gray);
+  color: var(--light);
   margin-bottom: 40px;
   max-width: 500px;
   margin-left: auto;
