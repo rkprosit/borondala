@@ -142,17 +142,37 @@ nav.scrolled {
   overflow: hidden;
 }
 
-.hero-bg {
+.hero-slideshow {
   position: absolute;
   inset: 0;
-  background: url('../images/hero-bg.jpg') center/cover no-repeat;
-  opacity: 0.3;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.5s ease;
   animation: heroZoom 20s ease-in-out infinite alternate;
+}
+
+.hero-slide.active {
+  opacity: 1;
 }
 
 @keyframes heroZoom {
   from { transform: scale(1); }
   to { transform: scale(1.1); }
+}
+
+.hero-content.text-hidden .subtitle,
+.hero-content.text-hidden h1,
+.hero-content.text-hidden p,
+.hero-content.text-hidden div {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
 }
 
 .hero-overlay {

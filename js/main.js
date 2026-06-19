@@ -19,6 +19,29 @@ navLinks.querySelectorAll('a').forEach(link => {
   });
 });
 
+// Hero slideshow
+const slidesContainer = document.querySelector('.hero-slideshow');
+const slides = Array.from(document.querySelectorAll('.hero-slide'));
+const heroContent = document.querySelector('.hero-content');
+let currentSlide = 0;
+
+// Shuffle slides
+slides.sort(() => Math.random() - 0.5);
+slides.forEach(slide => slidesContainer.appendChild(slide));
+slides[0].classList.add('active');
+
+function nextSlide() {
+  slides[currentSlide].classList.remove('active');
+  currentSlide = (currentSlide + 1) % slides.length;
+  slides[currentSlide].classList.add('active');
+}
+
+setInterval(nextSlide, 3000);
+
+setTimeout(() => {
+  heroContent.classList.add('text-hidden');
+}, 5000);
+
 // Portfolio filter
 const filterBtns = document.querySelectorAll('.filter-btn');
 const portfolioGrid = document.querySelector('.portfolio-grid');
