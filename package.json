@@ -1,0 +1,23 @@
+{
+  "name": "borondala",
+  "version": "1.0.0",
+  "description": "Borondala Photography website",
+  "scripts": {
+    "compress": "node scripts/compress.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkprosit/borondala.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rkprosit/borondala/issues"
+  },
+  "homepage": "https://github.com/rkprosit/borondala#readme",
+  "dependencies": {
+    "sharp": "^0.35.1"
+  }
+}
