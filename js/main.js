@@ -98,9 +98,6 @@ filterBtns.forEach(btn => {
 // Lightbox
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = lightbox.querySelector('img');
-const lightboxClose = lightbox.querySelector('.lightbox-close');
-const lightboxPrev = lightbox.querySelector('.lightbox-prev');
-const lightboxNext = lightbox.querySelector('.lightbox-next');
 let currentIndex = 0;
 let lightboxImages = [];
 
@@ -121,43 +118,41 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     lightboxImages = visible.map(i => i.querySelector('img')?.src).filter(Boolean);
     currentIndex = lightboxImages.indexOf(img.src);
     if (currentIndex === -1) currentIndex = 0;
-    openLightbox();
+    if (!lightboxImages.length) return;
+    lightboxImg.src = lightboxImages[currentIndex];
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
   });
 });
-
-function openLightbox() {
-  if (!lightboxImages.length) return;
-  lightboxImg.src = lightboxImages[currentIndex];
-  lightbox.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
 
 function closeLightbox() {
   lightbox.classList.remove('open');
   document.body.style.overflow = '';
 }
 
-lightboxClose.addEventListener('click', closeLightbox);
-
-lightboxPrev.addEventListener('click', () => {
-  currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length;
-  lightboxImg.src = lightboxImages[currentIndex];
-});
-
-lightboxNext.addEventListener('click', () => {
-  currentIndex = (currentIndex + 1) % lightboxImages.length;
-  lightboxImg.src = lightboxImages[currentIndex];
-});
-
 lightbox.addEventListener('click', (e) => {
-  if (e.target === lightbox) closeLightbox();
+  if (e.target.classList.contains('lightbox-close') || e.target === lightbox) {
+    closeLightbox();
+  } else if (e.target.classList.contains('lightbox-prev')) {
+    currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+    lightboxImg.src = lightboxImages[currentIndex];
+  } else if (e.target.classList.contains('lightbox-next')) {
+    currentIndex = (currentIndex + 1) % lightboxImages.length;
+    lightboxImg.src = lightboxImages[currentIndex];
+  }
 });
 
 document.addEventListener('keydown', (e) => {
   if (!lightbox.classList.contains('open')) return;
   if (e.key === 'Escape') closeLightbox();
-  if (e.key === 'ArrowLeft') lightboxPrev.click();
-  if (e.key === 'ArrowRight') lightboxNext.click();
+  if (e.key === 'ArrowLeft') {
+    currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+    lightboxImg.src = lightboxImages[currentIndex];
+  }
+  if (e.key === 'ArrowRight') {
+    currentIndex = (currentIndex + 1) % lightboxImages.length;
+    lightboxImg.src = lightboxImages[currentIndex];
+  }
 });
 
 // Video modal
