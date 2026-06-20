@@ -5,7 +5,7 @@ const navLinks = document.querySelector('.nav-links');
 
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 80);
-});
+}, { passive: true });
 
 hamburger.addEventListener('click', () => {
   hamburger.classList.toggle('open');
@@ -20,10 +20,12 @@ navLinks.querySelectorAll('a').forEach(link => {
 });
 
 // Hero slideshow
+const hero = document.querySelector('.hero');
 const slidesContainer = document.querySelector('.hero-slideshow');
 const slides = Array.from(document.querySelectorAll('.hero-slide'));
 const heroContent = document.querySelector('.hero-content');
 let currentSlide = 0;
+let slideInterval;
 
 // Shuffle slides
 slides.sort(() => Math.random() - 0.5);
@@ -36,17 +38,35 @@ function nextSlide() {
   slides[currentSlide].classList.add('active');
 }
 
-setInterval(nextSlide, 5000);
+function startSlideshow() {
+  if (slideInterval) return;
+  slideInterval = setInterval(nextSlide, 5000);
+}
+
+function stopSlideshow() {
+  clearInterval(slideInterval);
+  slideInterval = null;
+}
+
+startSlideshow();
+
+const heroObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) startSlideshow();
+    else stopSlideshow();
+  });
+}, { threshold: 0 });
+heroObserver.observe(hero);
 
 setTimeout(() => {
   heroContent.classList.add('text-hidden');
 }, 5000);
 
 // Portfolio filter
+const API_BASE = 'backend';
 const filterBtns = document.querySelectorAll('.filter-btn');
 const portfolioGrid = document.querySelector('.portfolio-grid');
-const portfolioItems = Array.from(document.querySelectorAll('.portfolio-item'));
-const videoItems = Array.from(document.querySelectorAll('.video-item'));
+const videoGrid = document.querySelector('.video-grid');
 const showMorePortfolio = document.getElementById('showMorePortfolio');
 const showMoreVideo = document.getElementById('showMoreVideo');
 const showAllPortfolio = document.getElementById('showAllPortfolio');
@@ -56,69 +76,123 @@ const INITIAL_SHOW = 8;
 const INITIAL_VIDEO = 4;
 const SHOW_MORE_INCREMENT = 4;
 
+let portfolioData = [];
+let videoData = [];
 let portfolioVisibleCount = INITIAL_SHOW;
 let videoVisibleCount = INITIAL_VIDEO;
 
-function applyPortfolioVisibility() {
-  const filter = document.querySelector('.filter-btn.active')?.dataset?.filter || 'all';
-  const items = filter === 'all' ? portfolioItems : portfolioItems.filter(i => i.dataset.category === filter);
-
-  portfolioItems.forEach(item => {
-    const match = filter === 'all' || item.dataset.category === filter;
-    if (!match) { item.style.display = 'none'; return; }
-    item.style.display = 'block';
-    item.style.opacity = '1';
-  });
-
-  items.forEach((item, i) => {
-    item.style.display = i < portfolioVisibleCount ? 'block' : 'none';
-  });
-
-  if (showMorePortfolio) {
-    const items = getFilteredItems();
-    showMorePortfolio.classList.toggle('hidden', portfolioVisibleCount >= items.length);
-  }
-  if (showAllPortfolio) {
-    const items = getFilteredItems();
-    showAllPortfolio.classList.toggle('hidden', portfolioVisibleCount >= items.length);
-  }
+async function fetchPortfolio(category) {
+  const params = category && category !== 'all' ? `?category=${category}` : '';
+  const res = await fetch(`${API_BASE}/get_portfolio.php${params}`);
+  const data = await res.json();
+  return data.success ? data.data : [];
 }
 
-function getFilteredItems() {
+async function fetchVideos() {
+  const res = await fetch(`${API_BASE}/get_videos.php`);
+  const data = await res.json();
+  return data.success ? data.data : [];
+}
+
+function buildPortfolioHTML(items) {
+  return items.map(item => `
+    <div class="portfolio-item fade-in" data-category="${item.category}" data-id="${item.id}">
+      <img loading="lazy" decoding="async" src="${item.image_path}" alt="${item.alt_text || item.title}">
+      <div class="portfolio-overlay">
+        <h3>${item.title}</h3>
+        <span>${item.category}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function buildVideoHTML(items) {
+  return items.map(v => {
+    const thumb = v.thumbnail_url || (
+      (v.youtube_url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/) || [])[1]
+        ? `https://img.youtube.com/vi/${v.youtube_url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)[1]}/maxresdefault.jpg`
+        : ''
+    );
+    return `
+      <div class="video-item fade-in" data-src="${v.youtube_url}">
+        <div class="video-thumb">
+          <img loading="lazy" src="${thumb}" alt="${v.title}" style="width:100%; height:100%; object-fit:cover;">
+          <div class="play-btn"></div>
+        </div>
+        <div class="video-info">
+          <h4>${v.title}</h4>
+          <span>${v.category}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getPortfolioItems() {
+  return Array.from(portfolioGrid.querySelectorAll('.portfolio-item'));
+}
+
+function getVideoItems() {
+  return Array.from(videoGrid.querySelectorAll('.video-item'));
+}
+
+function applyPortfolioVisibility() {
   const filter = document.querySelector('.filter-btn.active')?.dataset?.filter || 'all';
-  return filter === 'all' ? portfolioItems : portfolioItems.filter(i => i.dataset.category === filter);
+  const items = filter === 'all' ? portfolioData : portfolioData.filter(i => i.category === filter);
+  const allItems = getPortfolioItems();
+
+  allItems.forEach(el => {
+    const match = filter === 'all' || el.dataset.category === filter;
+    el.style.display = match ? '' : 'none';
+  });
+
+  allItems.forEach((el, i) => {
+    el.style.display = i < portfolioVisibleCount ? '' : 'none';
+  });
+
+  if (showMorePortfolio) showMorePortfolio.classList.toggle('hidden', portfolioVisibleCount >= items.length);
+  if (showAllPortfolio) showAllPortfolio.classList.toggle('hidden', portfolioVisibleCount >= items.length);
+}
+
+function getFilteredCount() {
+  const filter = document.querySelector('.filter-btn.active')?.dataset?.filter || 'all';
+  return filter === 'all' ? portfolioData.length : portfolioData.filter(i => i.category === filter).length;
 }
 
 function applyVideoVisibility() {
-  videoItems.forEach((item, i) => {
-    item.style.display = i < videoVisibleCount ? 'block' : 'none';
-  });
-  if (showMoreVideo) {
-    showMoreVideo.classList.toggle('hidden', videoVisibleCount >= videoItems.length);
-  }
-  if (showAllVideo) {
-    showAllVideo.classList.toggle('hidden', videoVisibleCount >= videoItems.length);
-  }
+  const allItems = getVideoItems();
+  allItems.forEach((el, i) => { el.style.display = i < videoVisibleCount ? '' : 'none'; });
+  if (showMoreVideo) showMoreVideo.classList.toggle('hidden', videoVisibleCount >= videoData.length);
+  if (showAllVideo) showAllVideo.classList.toggle('hidden', videoVisibleCount >= videoData.length);
 }
 
-function shufflePortfolio() {
-  portfolioItems.forEach(item => {
+function shuffleGrid(grid) {
+  const items = Array.from(grid.querySelectorAll('.portfolio-item, .video-item'));
+  items.forEach(item => {
     item.classList.remove('wide', 'tall');
     item.style.order = '';
-    if (Math.random() < 0.25) item.classList.add('wide');
-    if (Math.random() < 0.15) item.classList.add('tall');
+    if (item.classList.contains('portfolio-item')) {
+      if (Math.random() < 0.25) item.classList.add('wide');
+      if (Math.random() < 0.15) item.classList.add('tall');
+    }
   });
-  portfolioItems.sort(() => Math.random() - 0.5).forEach(item => portfolioGrid.appendChild(item));
+  items.sort(() => Math.random() - 0.5).forEach(item => grid.appendChild(item));
 }
 
-function shuffleVideos() {
-  videoItems.sort(() => Math.random() - 0.5).forEach(item => document.querySelector('.video-grid').appendChild(item));
+async function loadPortfolio() {
+  portfolioData = await fetchPortfolio();
+  portfolioGrid.innerHTML = buildPortfolioHTML(portfolioData);
+  shuffleGrid(portfolioGrid);
+  applyPortfolioVisibility();
+  setupLightbox();
 }
 
-shufflePortfolio();
-shuffleVideos();
-applyPortfolioVisibility();
-applyVideoVisibility();
+async function loadVideos() {
+  videoData = await fetchVideos();
+  videoGrid.innerHTML = buildVideoHTML(videoData);
+  applyVideoVisibility();
+  setupVideoModal();
+}
 
 if (showMorePortfolio) {
   showMorePortfolio.addEventListener('click', () => {
@@ -142,14 +216,14 @@ if (showMoreVideo) {
 
 if (showAllPortfolio) {
   showAllPortfolio.addEventListener('click', () => {
-    portfolioVisibleCount = getFilteredItems().length;
+    portfolioVisibleCount = getFilteredCount();
     applyPortfolioVisibility();
   });
 }
 
 if (showAllVideo) {
   showAllVideo.addEventListener('click', () => {
-    videoVisibleCount = videoItems.length;
+    videoVisibleCount = videoData.length;
     applyVideoVisibility();
   });
 }
@@ -172,15 +246,17 @@ let lightboxImages = [];
 
 function getVisibleItems() {
   const activeFilter = document.querySelector('.filter-btn.active')?.dataset?.filter || 'all';
-  const items = Array.from(document.querySelectorAll('.portfolio-item'));
+  const items = Array.from(portfolioGrid.querySelectorAll('.portfolio-item'));
   return items.filter(item => {
     if (activeFilter === 'all') return item.style.display !== 'none';
     return item.dataset.category === activeFilter && item.style.display !== 'none';
   });
 }
 
-document.querySelectorAll('.portfolio-item').forEach(item => {
-  item.addEventListener('click', () => {
+function setupLightbox() {
+  portfolioGrid.addEventListener('click', (e) => {
+    const item = e.target.closest('.portfolio-item');
+    if (!item) return;
     const img = item.querySelector('img');
     if (!img) return;
     const visible = getVisibleItems();
@@ -192,7 +268,7 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
   });
-});
+}
 
 function closeLightbox() {
   lightbox.classList.remove('open');
@@ -212,8 +288,12 @@ lightbox.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (lightbox.classList.contains('open')) closeLightbox();
+    if (estimateModal.classList.contains('open')) closeEstimate();
+    return;
+  }
   if (!lightbox.classList.contains('open')) return;
-  if (e.key === 'Escape') closeLightbox();
   if (e.key === 'ArrowLeft') {
     currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length;
     lightboxImg.src = lightboxImages[currentIndex];
@@ -230,28 +310,29 @@ const videoPlayer = videoModal.querySelector('video');
 const videoIframe = videoModal.querySelector('iframe');
 const videoClose = videoModal.querySelector('.lightbox-close');
 
-document.querySelectorAll('.video-item').forEach(item => {
-  item.addEventListener('click', () => {
+function setupVideoModal() {
+  videoGrid.addEventListener('click', (e) => {
+    const item = e.target.closest('.video-item');
+    if (!item) return;
     const src = item.dataset.src;
-    if (src) {
-      if (src.includes('youtube') || src.includes('youtu.be')) {
-        const id = src.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)?.[1];
-        if (id) {
-          videoIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
-          videoIframe.style.display = 'block';
-          videoPlayer.style.display = 'none';
-        }
-      } else {
-        videoPlayer.src = src;
-        videoPlayer.style.display = 'block';
-        videoIframe.style.display = 'none';
+    if (!src) return;
+    if (src.includes('youtube') || src.includes('youtu.be')) {
+      const id = src.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)?.[1];
+      if (id) {
+        videoIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+        videoIframe.style.display = 'block';
+        videoPlayer.style.display = 'none';
       }
-      videoModal.classList.add('open');
-      videoPlayer.play();
-      document.body.style.overflow = 'hidden';
+    } else {
+      videoPlayer.src = src;
+      videoPlayer.style.display = 'block';
+      videoIframe.style.display = 'none';
     }
+    videoModal.classList.add('open');
+    videoPlayer.play();
+    document.body.style.overflow = 'hidden';
   });
-});
+}
 
 function closeVideo() {
   videoModal.classList.remove('open');
@@ -297,10 +378,6 @@ estimateClose.addEventListener('click', closeEstimate);
 
 estimateModal.addEventListener('click', (e) => {
   if (e.target === estimateModal) closeEstimate();
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && estimateModal.classList.contains('open')) closeEstimate();
 });
 
 estimateForm.addEventListener('submit', async (e) => {
@@ -504,4 +581,15 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+function observeNew() {
+  document.querySelectorAll('.fade-in:not(.observed)').forEach(el => {
+    el.classList.add('observed');
+    observer.observe(el);
+  });
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', async () => {
+  await Promise.all([loadPortfolio(), loadVideos()]);
+  observeNew();
+});

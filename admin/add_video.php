@@ -1,0 +1,7 @@
+<?php require_once __DIR__ . '/auth.php'; requireLogin(); require_once __DIR__ . '/../backend/config.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try { $pdo = getDB(); $stmt = $pdo->prepare("INSERT INTO videos (title, category, youtube_url, thumbnail_url, display_order) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$_POST['title'] ?? '', $_POST['category'] ?? '', $_POST['youtube_url'] ?? '', $_POST['thumbnail_url'] ?? '', intval($_POST['display_order'] ?? 0)]);
+        $_SESSION['flash'] = ['type' => 'success', 'message' => 'Video added!']; } catch (Exception $e) { $_SESSION['flash'] = ['type' => 'error', 'message' => 'Error: ' . $e->getMessage()]; }
+    header('Location: index.php'); exit;
+} ?><!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Add Video</title><link rel="stylesheet" href="style.css"></head><body><div class="navbar"><h2>Add Video</h2><a href="index.php">&larr; Back</a></div><div class="container"><div class="form-card"><form method="POST"><input type="text" name="title" placeholder="Video Title" required><input type="text" name="category" placeholder="Category"><input type="url" name="youtube_url" placeholder="YouTube URL" required><input type="text" name="thumbnail_url" placeholder="Thumbnail URL (optional)"><input type="number" name="display_order" placeholder="Order" value="0"><button type="submit" class="btn">Add</button></form></div></div></body></html>
