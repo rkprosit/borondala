@@ -331,6 +331,7 @@ estimateForm.addEventListener('submit', (e) => {
   const email = data.get('Email') || '';
   const phone = data.get('Phone') || '';
   const eventType = data.get('Event Type') || '';
+  const location = data.get('Location') || '';
   const eventDate = data.get('Event Date') || '';
   const budget = data.get('Budget') || '';
   const services = [];
@@ -346,6 +347,7 @@ estimateForm.addEventListener('submit', (e) => {
     `*Email:* ${email}%0A` +
     `*Phone:* ${phone}%0A` +
     `*Event:* ${eventType}%0A` +
+    `*Location:* ${location}%0A` +
     `*Date:* ${eventDate}%0A` +
     `*Budget:* ${budget}%0A` +
     `*Services:* ${services.join(', ')}%0A` +
