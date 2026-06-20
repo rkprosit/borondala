@@ -292,9 +292,11 @@ const estimateModal = document.getElementById('estimateModal');
 const estimateClose = estimateModal.querySelector('.estimate-close');
 const estimateForm = document.getElementById('estimateForm');
 
-function openEstimate() {
+function openEstimate(plan) {
   estimateModal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  const planInput = document.getElementById('planType');
+  if (planInput) planInput.value = plan || '';
 }
 
 function closeEstimate() {
@@ -322,11 +324,34 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && estimateModal.classList.contains('open')) closeEstimate();
 });
 
-estimateForm.addEventListener('submit', async (e) => {
+estimateForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const data = new FormData(estimateForm);
-  await fetch(estimateForm.action, { method: 'POST', body: data });
-  alert('Thank you! I will review your request and get back to you within 24 hours with a custom estimate.');
+  const name = data.get('Name') || '';
+  const email = data.get('Email') || '';
+  const phone = data.get('Phone') || '';
+  const eventType = data.get('Event Type') || '';
+  const eventDate = data.get('Event Date') || '';
+  const budget = data.get('Budget') || '';
+  const services = [];
+  if (data.get('Photography')) services.push('Photography');
+  if (data.get('Videography')) services.push('Videography');
+  if (data.get('Both')) services.push('Both');
+  const details = data.get('Details') || '';
+  const planType = data.get('Plan Type') || '';
+
+  const msg = `*New Estimate Request*%0A%0A` +
+    `*Plan:* ${planType}%0A` +
+    `*Name:* ${name}%0A` +
+    `*Email:* ${email}%0A` +
+    `*Phone:* ${phone}%0A` +
+    `*Event:* ${eventType}%0A` +
+    `*Date:* ${eventDate}%0A` +
+    `*Budget:* ${budget}%0A` +
+    `*Services:* ${services.join(', ')}%0A` +
+    `*Details:* ${details}`;
+
+  window.open(`https://wa.me/918013638040?text=${msg}`, '_blank');
   closeEstimate();
   estimateForm.reset();
 });

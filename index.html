@@ -883,7 +883,7 @@
           <span style="font-family:var(--font-serif); font-size:2.5rem; color:var(--primary);">BRIDE SIDE</span>
         </div>
         <img src="images/wd/DSC08121.webp" alt="Bride Side" class="plan-img" style="width:100%; border-radius:6px; margin-bottom:16px;">
-        <a href="#" class="btn" style="margin-top:24px; width:100%;" onclick="openEstimate();return false;">Get Quote</a>
+        <a href="#" class="btn" style="margin-top:24px; width:100%;" onclick="openEstimate('BRIDE SIDE');return false;">Get Quote</a>
       </div>
 
       <div class="fade-in" style="border:1px solid var(--primary); border-radius:8px; padding:40px 32px; text-align:center; position:relative;">
@@ -893,7 +893,7 @@
           <span style="font-family:var(--font-serif); font-size:2.5rem; color:var(--primary);">BOTH SIDE</span>
         </div>
         <img src="images/weeding/pp.jpeg" alt="Both Side" class="plan-img" style="width:100%; border-radius:6px; margin-bottom:16px;">
-        <a href="#" class="btn btn-primary" style="margin-top:24px; width:100%;" onclick="openEstimate();return false;">Get Quote</a>
+        <a href="#" class="btn btn-primary" style="margin-top:24px; width:100%;" onclick="openEstimate('BOTH SIDE');return false;">Get Quote</a>
       </div>
 
       <div class="fade-in" style="border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:40px 32px; text-align:center;">
@@ -902,7 +902,7 @@
           <span style="font-family:var(--font-serif); font-size:2.5rem; color:var(--primary);">GROOM SIDE</span>
         </div>
         <img src="images/wd/groom/groomside.webp" alt="Groom Side" class="plan-img" style="width:100%; border-radius:6px; margin-bottom:16px;">
-        <a href="#" class="btn" style="margin-top:24px; width:100%;" onclick="openEstimate();return false;">Get Quote</a>
+        <a href="#" class="btn" style="margin-top:24px; width:100%;" onclick="openEstimate('GROOM SIDE');return false;">Get Quote</a>
       </div>
 
       <div class="fade-in" style="border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:40px 32px; text-align:center;">
@@ -920,7 +920,7 @@
           <a href="#" onclick="filterPortfolio('modelshoot');return false;" style="color:var(--primary); text-decoration:none;">MODEL SHOOT</a> /
           <a href="#" onclick="filterPortfolio('all');return false;" style="color:var(--primary); text-decoration:none;">ENGAGEMENT</a>
         </p>
-        <a href="#" class="btn" style="margin-top:24px; width:100%;" onclick="openEstimate();return false;">Get Quote</a>
+        <a href="#" class="btn" style="margin-top:24px; width:100%;" onclick="openEstimate('CUSTOM');return false;">Get Quote</a>
       </div>
 
     </div>
@@ -1121,6 +1121,7 @@
       <p>Tell me about your event and I'll get back to you with a custom estimate.</p>
     </div>
     <form class="estimate-form" id="estimateForm" action="https://formsubmit.co/borondalaphotography@gmail.com" method="POST">
+      <input type="hidden" name="Plan Type" id="planType" value="">
       <div class="form-row">
         <input type="text" name="Name" placeholder="Your Name" required>
         <input type="email" name="Email" placeholder="Your Email" required>
