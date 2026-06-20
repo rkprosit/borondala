@@ -951,6 +951,15 @@ footer p {
   transform: translateY(0);
 }
 
+.plan-img {
+  transition: transform 0.5s ease;
+  cursor: pointer;
+}
+
+.plan-img:hover {
+  transform: scale(1.05);
+}
+
 /* Video Modal */
 .video-modal {
   position: fixed;

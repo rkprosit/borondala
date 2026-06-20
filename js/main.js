@@ -351,7 +351,7 @@ const responses = {
     "You can check out our portfolio in the Portfolio section above to see samples of each category!"
   ],
   pricing: [
-    "We have flexible packages to suit different needs:\n\n**Basic** — 4 hrs, 200+ photos — ideal for small events & birthdays\n**Standard** ⭐ Popular — 8 hrs, 500+ photos, 1 video reel — great for pre-weddings & intimate weddings\n**Premium** — Full day, 1000+ photos, 2 videographers, album — for grand weddings\n\nAll packages include edited digital files and an online gallery. Want a custom quote? Click **Get Estimate** above!",
+    "We have flexible packages to suit different needs:\n\n**Basic** — 4 hrs, 200+ photos — ideal for small events & birthdays\n**Standard** ⭐ Popular — Full cinematic video, teaser, reels, all raw photos (32GB), premium album, 30 edited photos & photo frame\n**Premium** — Full day, 1000+ photos, 2 videographers, album — for grand weddings\n\nWant a custom quote? Click **Get Estimate** above!",
     "Every event is unique! For a personalized quote, just use the **Get Estimate** button and I'll help you out."
   ],
   booking: [
@@ -524,3 +524,15 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+function filterPortfolio(category) {
+  const btn = Array.from(filterBtns).find(b => b.dataset.filter === category);
+  if (btn) {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    portfolioGrid.classList.toggle('all-view', btn.dataset.filter === 'all');
+    portfolioVisibleCount = INITIAL_SHOW;
+    applyPortfolioVisibility();
+  }
+  document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+}
