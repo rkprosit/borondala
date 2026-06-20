@@ -561,3 +561,10 @@ function filterPortfolio(category) {
   }
   document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
 }
+
+setTimeout(() => {
+  if (!sessionStorage.getItem('estimateShown')) {
+    openEstimate();
+    sessionStorage.setItem('estimateShown', 'true');
+  }
+}, 5000);
