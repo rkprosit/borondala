@@ -562,9 +562,15 @@ function filterPortfolio(category) {
   document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
 }
 
-setTimeout(() => {
-  if (!sessionStorage.getItem('estimateShown')) {
-    openEstimate();
-    sessionStorage.setItem('estimateShown', 'true');
-  }
-}, 5000);
+let delay = 5;
+function schedulePopup() {
+  setTimeout(() => {
+    if (!sessionStorage.getItem('estimateShown')) {
+      openEstimate();
+      sessionStorage.setItem('estimateShown', 'true');
+    }
+    delay *= 2;
+    schedulePopup();
+  }, delay * 1000);
+}
+schedulePopup();
