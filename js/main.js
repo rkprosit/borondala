@@ -599,7 +599,8 @@ function filterPortfolio(category) {
 // Google Reviews Configuration
 const GOOGLE_REVIEWS = {
   apiKey: 'AIzaSyAF3CdLfQZinRGUqfiPxfscqxfhE0T8WAw',
-  placeId: '0x39f86300258d17bb:0xff02876454bf966c'
+  placeId: '0x39f86300258d17bb:0xff02876454bf966c',
+  query: 'Borondala Photography Hooghly'
 };
 
 function loadGoogleReviews() {
@@ -612,17 +613,30 @@ function loadGoogleReviews() {
 
 window.initGoogleReviews = function () {
   const service = new google.maps.places.PlacesService(document.createElement('div'));
-  service.getDetails({
-    placeId: GOOGLE_REVIEWS.placeId,
-    fields: ['rating', 'reviews', 'user_ratings_total']
-  }, (place, status) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK && place) {
-      renderGoogleReviews(place);
+  service.findPlaceFromQuery({
+    query: GOOGLE_REVIEWS.query,
+    fields: ['place_id']
+  }, (results, status) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results && results[0]) {
+      service.getDetails({
+        placeId: results[0].place_id
+      }, (place, s) => {
+        if (s === google.maps.places.PlacesServiceStatus.OK && place) {
+          renderGoogleReviews(place);
+        } else {
+          showReviewError();
+        }
+      });
     } else {
-      document.getElementById('testimonialGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);padding:40px 0;">Unable to load reviews.</div>';
+      showReviewError();
     }
   });
 };
+
+function showReviewError() {
+  const grid = document.getElementById('testimonialGrid');
+  if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);padding:40px 0;">Unable to load reviews.</div>';
+}
 
 function renderGoogleReviews(place) {
   const badge = document.getElementById('googleRatingBadge');
