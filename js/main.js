@@ -639,7 +639,8 @@ function renderGoogleReviews(place) {
 
   const grid = document.getElementById('testimonialGrid');
   if (grid && place.reviews && place.reviews.length) {
-    grid.innerHTML = place.reviews.map(r => `
+    const shuffled = [...place.reviews].sort(() => Math.random() - 0.5);
+    grid.innerHTML = shuffled.map(r => `
       <div class="testimonial-card fade-in">
         <div class="review-stars">${renderStars(r.rating)}</div>
         <p>${r.text ? `"${r.text}"` : 'No review text provided.'}</p>
