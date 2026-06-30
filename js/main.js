@@ -602,22 +602,25 @@ const GOOGLE_REVIEWS = {
   placeId: '0x39f86300258d17bb:0xff02876454bf966c'
 };
 
-async function loadGoogleReviews() {
+function loadGoogleReviews() {
   if (!GOOGLE_REVIEWS.apiKey) return;
-
-  try {
-    const res = await fetch(
-      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${GOOGLE_REVIEWS.placeId}&fields=name,rating,reviews,user_rating_total&key=${GOOGLE_REVIEWS.apiKey}`
-    );
-    const data = await res.json();
-
-    if (data.status === 'OK' && data.result) {
-      renderGoogleReviews(data.result);
-    }
-  } catch (err) {
-    console.warn('Google Reviews unavailable, using fallback.');
-  }
+  const s = document.createElement('script');
+  s.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_REVIEWS.apiKey}&libraries=places&callback=initGoogleReviews`;
+  s.async = true; s.defer = true;
+  document.head.appendChild(s);
 }
+
+window.initGoogleReviews = function () {
+  const service = new google.maps.places.PlacesService(document.createElement('div'));
+  service.getDetails({
+    placeId: GOOGLE_REVIEWS.placeId,
+    fields: ['rating', 'reviews', 'user_ratings_total']
+  }, (place, status) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+      renderGoogleReviews(place);
+    }
+  });
+};
 
 function renderGoogleReviews(place) {
   const badge = document.getElementById('googleRatingBadge');
