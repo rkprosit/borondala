@@ -796,38 +796,65 @@ nav.scrolled {
 /* Footer */
 footer {
   background: var(--darker);
-  padding: 40px 0 24px;
   border-top: 1px solid rgba(255,255,255,0.05);
-  text-align: center;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px 40px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 48px;
+}
+
+.footer-col h4 {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--light);
+  margin-bottom: 20px;
+}
+
+.footer-col a {
+  display: block;
+  color: var(--gray);
+  text-decoration: none;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+  transition: color 0.3s;
+}
+
+.footer-col a:hover {
+  color: var(--primary);
+}
+
+.footer-brand p {
+  color: var(--gray);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
 }
 
 .footer-logo {
   font-family: var(--font-serif);
   font-size: 1.8rem;
   color: var(--primary);
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .footer-logo span {
   color: var(--light);
 }
 
-footer p {
-  color: var(--gray);
-  font-size: 0.85rem;
-  margin-bottom: 24px;
-}
-
-.social-links {
+.footer-social {
   display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 32px;
+  gap: 12px;
 }
 
-.social-links a {
-  width: 44px;
-  height: 44px;
+.footer-social a {
+  width: 40px;
+  height: 40px;
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 50%;
   display: flex;
@@ -836,6 +863,53 @@ footer p {
   font-size: 0.9rem;
   transition: all 0.3s;
   color: var(--gray);
+  margin-bottom: 0;
+}
+
+.footer-social a:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  color: var(--gray);
+  font-size: 0.85rem;
+}
+
+.footer-contact-item svg {
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.footer-contact-item a {
+  color: var(--gray);
+  text-decoration: none;
+  margin-bottom: 0;
+  transition: color 0.3s;
+}
+
+.footer-contact-item a:hover {
+  color: var(--primary);
+}
+
+.footer-contact-item span {
+  color: var(--gray);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 20px 24px;
+  text-align: center;
+}
+
+.footer-bottom p {
+  color: var(--gray);
+  font-size: 0.8rem;
+  margin: 0;
 }
 
 .social-links a:hover {
@@ -1627,5 +1701,13 @@ footer p {
   .fab svg {
     width: 20px;
     height: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 40px 24px 24px;
   }
 }
