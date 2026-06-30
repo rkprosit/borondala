@@ -287,6 +287,38 @@ videoModal.addEventListener('click', (e) => {
   if (e.target === videoModal) closeVideo();
 });
 
+// Inline video autoplay
+const videoObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const item = entry.target;
+    const src = item.dataset.src;
+    if (!src || !src.includes('youtu')) return;
+    const id = src.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)?.[1];
+    if (!id) return;
+    const thumb = item.querySelector('.video-thumb');
+    if (!thumb) return;
+    if (entry.isIntersecting) {
+      if (thumb.querySelector('.video-autoplay-iframe')) return;
+      const iframe = document.createElement('iframe');
+      iframe.className = 'video-autoplay-iframe';
+      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&rel=0&showinfo=0`;
+      iframe.allow = 'autoplay; encrypted-media';
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;pointer-events:none;';
+      thumb.appendChild(iframe);
+    } else {
+      const iframe = thumb.querySelector('.video-autoplay-iframe');
+      if (iframe) iframe.remove();
+    }
+  });
+}, { threshold: 0.3 });
+
+videoItems.forEach(item => {
+  if (item.dataset.src?.includes('youtu')) {
+    videoObserver.observe(item);
+  }
+});
+
 // Estimate modal
 const estimateModal = document.getElementById('estimateModal');
 const estimateClose = estimateModal.querySelector('.estimate-close');
