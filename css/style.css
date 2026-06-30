@@ -705,6 +705,14 @@ nav.scrolled {
   text-decoration: underline;
 }
 
+.loading-reviews {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--gray);
+  font-size: 0.9rem;
+  padding: 40px 0;
+}
+
 /* Contact */
 .contact-grid {
   display: grid;

@@ -618,6 +618,8 @@ window.initGoogleReviews = function () {
   }, (place, status) => {
     if (status === google.maps.places.PlacesServiceStatus.OK && place) {
       renderGoogleReviews(place);
+    } else {
+      document.getElementById('testimonialGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);padding:40px 0;">Unable to load reviews.</div>';
     }
   });
 };
