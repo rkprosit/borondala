@@ -596,6 +596,69 @@ function filterPortfolio(category) {
   document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
 }
 
+// Google Reviews Configuration
+const GOOGLE_REVIEWS = {
+  apiKey: 'AIzaSyAF3CdLfQZinRGUqfiPxfscqxfhE0T8WAw',
+  placeId: '0x39f86300258d17bb:0xff02876454bf966c'
+};
+
+async function loadGoogleReviews() {
+  if (!GOOGLE_REVIEWS.apiKey) return;
+
+  try {
+    const res = await fetch(
+      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${GOOGLE_REVIEWS.placeId}&fields=name,rating,reviews,user_rating_total&key=${GOOGLE_REVIEWS.apiKey}`
+    );
+    const data = await res.json();
+
+    if (data.status === 'OK' && data.result) {
+      renderGoogleReviews(data.result);
+    }
+  } catch (err) {
+    console.warn('Google Reviews unavailable, using fallback.');
+  }
+}
+
+function renderGoogleReviews(place) {
+  const badge = document.getElementById('googleRatingBadge');
+  if (badge && place.rating) {
+    badge.style.display = 'flex';
+    badge.innerHTML = `
+      <span class="google-badge-stars">${renderStars(place.rating)}</span>
+      <span class="google-badge-rating">${place.rating}</span>
+      <span class="google-badge-count">
+        ${place.user_rating_total} reviews on
+        <a href="https://search.google.com/local/reviews?placeid=${GOOGLE_REVIEWS.placeId}" target="_blank" class="google-badge-link">Google</a>
+      </span>`;
+  }
+
+  const grid = document.getElementById('testimonialGrid');
+  if (grid && place.reviews && place.reviews.length) {
+    grid.innerHTML = place.reviews.map(r => `
+      <div class="testimonial-card fade-in">
+        <div class="review-stars">${renderStars(r.rating)}</div>
+        <p>${r.text ? `"${r.text}"` : 'No review text provided.'}</p>
+        <div class="testimonial-author">
+          <img src="${r.profile_photo_url}" alt="${r.author_name}" loading="lazy" onerror="this.style.display='none'">
+          <div>
+            <h5>${r.author_name}</h5>
+            <span>${r.relative_time_description}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    document.querySelectorAll('#testimonialGrid .fade-in').forEach(el => observer.observe(el));
+  }
+}
+
+function renderStars(rating) {
+  const full = Math.round(rating);
+  return '★'.repeat(full) + '☆'.repeat(5 - full);
+}
+
+loadGoogleReviews();
+
 let delay = 5;
 function schedulePopup() {
   setTimeout(() => {

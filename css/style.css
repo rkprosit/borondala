@@ -655,6 +655,56 @@ nav.scrolled {
   color: var(--gray);
 }
 
+/* Google Reviews */
+.review-stars {
+  color: #f4b400;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.google-rating-badge {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 32px;
+  padding: 16px 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.google-badge-stars {
+  color: #f4b400;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+
+.google-badge-rating {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.google-badge-count {
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+.google-badge-link {
+  color: var(--primary);
+  font-size: 0.85rem;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.google-badge-link:hover {
+  text-decoration: underline;
+}
+
 /* Contact */
 .contact-grid {
   display: grid;
