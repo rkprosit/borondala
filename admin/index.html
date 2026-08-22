@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Borondala Admin</title>
+  <link rel="icon" type="image/png" href="../images/portfolio/logo1.png">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div id="setupNotice" class="notice hidden">
+  Supabase anon key is missing. Open <b>js/config.js</b> and paste your anon key
+  (Supabase Dashboard &rarr; Settings &rarr; API). Then run <b>supabase/schema.sql</b> in the SQL editor.
+</div>
+
+<div id="loginView" class="login-wrap hidden">
+  <form id="loginForm" class="login-card">
+    <h1><span>Boro<b>ndala</b></span> Admin</h1>
+    <p class="sub">Sign in to manage your site</p>
+    <input type="email" id="loginEmail" placeholder="Email" autocomplete="username" required>
+    <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password" required>
+    <button type="submit" class="btn-primary" id="loginBtn">Sign In</button>
+    <div id="loginError" class="error hidden"></div>
+  </form>
+</div>
+
+<div id="appView" class="app hidden">
+  <header class="topbar">
+    <a href="/" class="brand"><span>Boro<b>ndala</b></span></a>
+    <nav class="tabs" id="tabs">
+      <button data-tab="leads" class="active">Leads <span id="leadBadge" class="badge hidden"></span></button>
+      <button data-tab="portfolio">Portfolio</button>
+      <button data-tab="videos">Videos</button>
+      <button data-tab="testimonials">Testimonials</button>
+      <button data-tab="packages">Packages</button>
+    </nav>
+    <div class="topbar-right">
+      <span id="userEmail" class="muted"></span>
+      <button id="logoutBtn" class="btn-ghost">Log out</button>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <section id="tab-leads" class="tab-panel">
+      <div class="panel-head"><h2>Leads</h2><button id="refreshLeads" class="btn-ghost">Refresh</button></div>
+      <div id="leadsList" class="leads-list"></div>
+    </section>
+
+    <section id="tab-portfolio" class="tab-panel hidden">
+      <div class="panel-head"><h2>Portfolio</h2><span class="muted" id="portfolioCount"></span></div>
+      <form id="portfolioAddForm" class="add-form">
+        <input type="text" id="pfTitle" placeholder="Title (e.g. Wedding 12)" required>
+        <select id="pfCategory">
+          <option value="wedding">Wedding</option>
+          <option value="prewedding">Pre-Wedding</option>
+          <option value="babyshower">Baby Shower</option>
+          <option value="babyshoot">Baby Shoot</option>
+          <option value="modelshoot">Model Shoot</option>
+          <option value="event">Event</option>
+        </select>
+        <input type="number" id="pfSort" placeholder="Sort order" value="0">
+        <input type="file" id="pfFile" accept="image/*" required>
+        <button type="submit" class="btn-primary">Upload</button>
+        <span id="pfStatus" class="muted"></span>
+      </form>
+      <div id="portfolioList" class="card-grid"></div>
+    </section>
+
+    <section id="tab-videos" class="tab-panel hidden">
+      <div class="panel-head"><h2>Videos</h2></div>
+      <form id="videoAddForm" class="add-form">
+        <input type="text" id="vdTitle" placeholder="Title (e.g. Wedding Teaser)" required>
+        <input type="text" id="vdSubtitle" placeholder="Subtitle (e.g. Cinematic Teaser)">
+        <input type="url" id="vdUrl" placeholder="YouTube URL" required>
+        <input type="number" id="vdSort" placeholder="Sort order" value="0">
+        <button type="submit" class="btn-primary">Add Video</button>
+        <span id="vdStatus" class="muted"></span>
+      </form>
+      <div id="videoList" class="card-grid"></div>
+    </section>
+
+    <section id="tab-testimonials" class="tab-panel hidden">
+      <div class="panel-head"><h2>Testimonials</h2></div>
+      <form id="testimonialAddForm" class="add-form add-form-col">
+        <input type="text" id="tmName" placeholder="Client name (e.g. Priya &amp; Rahul)" required>
+        <input type="text" id="tmLabel" placeholder="Label (e.g. Pre-Wedding, 2024)">
+        <textarea id="tmQuote" placeholder="Testimonial text..." required></textarea>
+        <button type="submit" class="btn-primary">Add Testimonial</button>
+        <span id="tmStatus" class="muted"></span>
+      </form>
+      <div id="testimonialList" class="stack"></div>
+    </section>
+
+    <section id="tab-packages" class="tab-panel hidden">
+      <div class="panel-head"><h2>Packages</h2></div>
+      <form id="packageAddForm" class="add-form add-form-col">
+        <div class="row">
+          <input type="text" id="pkTitle" placeholder="Package name (e.g. BRIDE SIDE)" required>
+          <input type="text" id="pkPrice" placeholder="Price (optional, e.g. 25,000+)">
+          <label class="chk"><input type="checkbox" id="pkPopular"> Popular</label>
+        </div>
+        <input type="text" id="pkTagline" placeholder="Tagline (optional)">
+        <textarea id="pkFeatures" placeholder="Features, one per line"></textarea>
+        <button type="submit" class="btn-primary">Add Package</button>
+        <span id="pkStatus" class="muted"></span>
+      </form>
+      <div id="packageList" class="stack"></div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="../js/config.js"></script>
+<script src="../js/vendor/supabase.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

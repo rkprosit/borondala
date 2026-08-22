@@ -346,6 +346,20 @@ document.getElementById('heroEstimate').addEventListener('click', (e) => {
   openEstimate();
 });
 
+document.addEventListener('click', (e) => {
+  const est = e.target.closest('[data-open-estimate]');
+  if (est) {
+    e.preventDefault();
+    openEstimate(est.dataset.openEstimate);
+    return;
+  }
+  const flt = e.target.closest('[data-filter-link]');
+  if (flt) {
+    e.preventDefault();
+    filterPortfolio(flt.dataset.filterLink);
+  }
+});
+
 estimateClose.addEventListener('click', closeEstimate);
 
 estimateModal.addEventListener('click', (e) => {
@@ -355,6 +369,27 @@ estimateModal.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && estimateModal.classList.contains('open')) closeEstimate();
 });
+
+function getSbClient() {
+  const cfg = window.SITE_CONFIG;
+  if (!cfg || !cfg.supabaseAnonKey || cfg.supabaseAnonKey.indexOf('PASTE_') === 0) return null;
+  if (!getSbClient._sb && typeof supabase !== 'undefined') {
+    try {
+      getSbClient._sb = supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+    } catch (err) {
+      return null;
+    }
+  }
+  return getSbClient._sb || null;
+}
+
+function saveLead(payload) {
+  const sb = getSbClient();
+  if (!sb) return;
+  sb.from('leads').insert(payload).then(res => {
+    if (res.error) console.warn('Lead save failed:', res.error.message);
+  });
+}
 
 estimateForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -385,10 +420,37 @@ estimateForm.addEventListener('submit', (e) => {
     `*Services:* ${services.join(', ')}%0A` +
     `*Details:* ${details}`;
 
+  saveLead({
+    source: 'estimate',
+    plan_type: planType,
+    name, email, phone,
+    event_type: eventType,
+    event_location: location,
+    event_date: eventDate,
+    budget,
+    services: services.join(', '),
+    details
+  });
+
   window.open(`https://wa.me/918013638040?text=${msg}`, '_blank');
   closeEstimate();
   estimateForm.reset();
 });
+
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', () => {
+    const data = new FormData(contactForm);
+    saveLead({
+      source: 'contact',
+      name: data.get('Name') || '',
+      email: data.get('Email') || '',
+      event_type: data.get('Event Type') || '',
+      event_date: data.get('Event Date') || '',
+      details: data.get('Message') || ''
+    });
+  });
+}
 
 // Chatbot
 const chatbot = document.getElementById('chatbot');
@@ -462,12 +524,16 @@ function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 function addMessage(text, type) {
   const div = document.createElement('div');
   div.className = `message ${type}`;
   const content = document.createElement('div');
   content.className = 'msg-content';
-  content.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  content.innerHTML = escapeHtml(text).replace(/\n/g, '<br>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   div.appendChild(content);
   chatbotBody.insertBefore(div, chatbotBody.querySelector('.typing') || chatbotBody.querySelector('.quick-replies') || null);
   chatbotBody.scrollTop = chatbotBody.scrollHeight;
@@ -598,7 +664,7 @@ function filterPortfolio(category) {
 
 // Google Reviews Configuration
 const GOOGLE_REVIEWS = {
-  apiKey: 'AIzaSyAF3CdLfQZinRGUqfiPxfscqxfhE0T8WAw',
+  apiKey: (window.SITE_CONFIG && window.SITE_CONFIG.googleMapsApiKey) || '',
   placeId: '0x39f86300258d17bb:0xff02876454bf966c',
   query: 'Borondala Photography Hooghly'
 };
@@ -659,7 +725,7 @@ function renderGoogleReviews(place) {
         <div class="review-stars">${renderStars(r.rating)}</div>
         <p>${r.text ? `"${r.text}"` : 'No review text provided.'}</p>
         <div class="testimonial-author">
-          <img src="${r.profile_photo_url}" alt="${r.author_name}" loading="lazy" onerror="this.style.display='none'">
+          <img src="${r.profile_photo_url}" alt="${r.author_name}" loading="lazy">
           <div>
             <h5>${r.author_name}</h5>
             <span>${r.relative_time_description}</span>
@@ -691,5 +757,124 @@ function schedulePopup() {
   }, delay * 1000);
 }
 schedulePopup();
+
+// Dynamic content from Supabase (falls back to static markup when empty/unavailable)
+(async function loadDynamicContent() {
+  const cfg = window.SITE_CONFIG;
+  if (!cfg || !cfg.supabaseAnonKey || cfg.supabaseAnonKey.indexOf('PASTE_') === 0) return;
+  if (typeof supabase === 'undefined') return;
+
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const ytid = (url) => {
+    const m = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+    return m ? m[1] : '';
+  };
+
+  let sb;
+  try {
+    sb = supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+  } catch (err) {
+    return;
+  }
+
+  function observeNewFadeIn(root) {
+    root.querySelectorAll('.fade-in:not(.visible)').forEach(el => observer.observe(el));
+  }
+
+  async function renderPortfolio() {
+    const { data, error } = await sb.from('portfolio_items').select('*').eq('is_visible', true).order('sort_order').order('created_at');
+    if (error || !data || !data.length) return;
+    portfolioGrid.innerHTML = data.map(item => `
+      <div class="portfolio-item fade-in" data-category="${esc(item.category)}">
+        <img loading="lazy" decoding="async" src="${esc(item.image_url)}" alt="${esc(item.title)}">
+        <div class="portfolio-overlay">
+          <h3>${esc(item.title)}</h3>
+          <span>${esc(item.category)}</span>
+        </div>
+      </div>`).join('');
+    portfolioItems.splice(0, portfolioItems.length, ...Array.from(portfolioGrid.querySelectorAll('.portfolio-item')));
+    shufflePortfolio();
+    applyPortfolioVisibility();
+    observeNewFadeIn(portfolioGrid);
+  }
+
+  async function renderVideos() {
+    const { data, error } = await sb.from('videos').select('*').eq('is_visible', true).order('sort_order').order('created_at');
+    if (error || !data || !data.length) return;
+    const grid = document.querySelector('.video-grid');
+    grid.innerHTML = '';
+    const fresh = [];
+    data.forEach(item => {
+      const id = ytid(item.url);
+      if (!id) return;
+      const el = document.createElement('div');
+      el.className = 'video-item fade-in';
+      el.dataset.src = item.url;
+      el.innerHTML = `
+        <div class="video-thumb">
+          <img loading="lazy" src="https://img.youtube.com/vi/${id}/maxresdefault.jpg" alt="${esc(item.title)}" style="width:100%; height:100%; object-fit:cover;">
+          <div class="play-btn"></div>
+        </div>
+        <div class="video-info">
+          <h4>${esc(item.title)}</h4>
+          <span>${esc(item.subtitle || '')}</span>
+        </div>`;
+      grid.appendChild(el);
+      fresh.push(el);
+    });
+    videoItems.splice(0, videoItems.length, ...fresh);
+    shuffleVideos();
+    applyVideoVisibility();
+    videoItems.forEach(item => videoObserver.observe(item));
+    observeNewFadeIn(grid);
+  }
+
+  async function renderTestimonials() {
+    const grid = document.querySelector('.testimonial-grid');
+    if (!grid || grid.querySelector('.loading-reviews') || document.getElementById('googleRatingBadge')) return;
+    const { data, error } = await sb.from('testimonials').select('*').eq('is_visible', true).order('sort_order').order('created_at');
+    if (error || !data || !data.length) return;
+    grid.innerHTML = data.map(t => `
+      <div class="testimonial-card fade-in">
+        <p>"${esc(t.quote)}"</p>
+        <div class="testimonial-author">
+          <div style="width:40px;height:40px;border-radius:50%;background:#333;flex-shrink:0;"></div>
+          <div>
+            <h5>${esc(t.name)}</h5>
+            <span>${esc(t.label)}</span>
+          </div>
+        </div>
+      </div>`).join('');
+    observeNewFadeIn(grid);
+  }
+
+  async function renderPackages() {
+    const { data, error } = await sb.from('packages').select('*').eq('is_visible', true).order('sort_order').order('created_at');
+    if (error || !data || !data.length) return;
+    const wrap = document.querySelector('#packages .container > div[style*="grid-template-columns"]');
+    if (!wrap) return;
+    wrap.innerHTML = data.map(p => {
+      const features = Array.isArray(p.features) ? p.features : [];
+      return `
+      <div class="fade-in" style="border:1px solid ${p.is_popular ? 'var(--primary)' : 'rgba(255,255,255,0.06)'}; border-radius:8px; padding:40px 32px; text-align:center; position:relative;">
+        ${p.is_popular ? '<span style="position:absolute; top:12px; right:12px; background:var(--primary); color:var(--dark); padding:4px 12px; font-size:0.65rem; letter-spacing:1px; text-transform:uppercase; font-weight:500;">Popular</span>' : ''}
+        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:var(--gray);">FOR</span>
+        <div style="margin:20px 0;">
+          <span style="font-family:var(--font-serif); font-size:${p.title.length > 14 ? '1.8rem' : '2.5rem'}; color:var(--primary);">${esc(p.title)}</span>
+        </div>
+        ${features.length ? `<ul style="list-style:none; color:var(--gray); font-size:0.8rem; text-align:left; margin-bottom:20px; line-height:2;">${features.map(f => `<li>— ${esc(f)}</li>`).join('')}</ul>` : ''}
+        ${p.price ? `<p style="color:var(--gray); font-size:0.85rem;">${esc(p.price)}</p>` : ''}
+        <a href="#" class="btn${p.is_popular ? ' btn-primary' : ''}" style="margin-top:24px; width:100%;" data-open-estimate="${esc(p.title)}">Get Quote</a>
+      </div>`;
+    }).join('');
+    observeNewFadeIn(wrap);
+  }
+
+  try {
+    await Promise.all([renderPortfolio(), renderVideos(), renderTestimonials(), renderPackages()]);
+  } catch (err) {
+    console.warn('Dynamic content unavailable, keeping static content.', err);
+  }
+})();
 
 
