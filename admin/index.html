@@ -50,7 +50,13 @@
     </section>
 
     <section id="tab-portfolio" class="tab-panel hidden">
-      <div class="panel-head"><h2>Portfolio</h2><span class="muted" id="portfolioCount"></span></div>
+      <div class="panel-head">
+        <h2>Portfolio</h2>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <span class="muted" id="portfolioCount"></span>
+          <button id="importGalleryBtn" class="btn-ghost">Import existing gallery</button>
+        </div>
+      </div>
       <form id="portfolioAddForm" class="add-form">
         <input type="text" id="pfTitle" placeholder="Title (e.g. Wedding 12)" required>
         <select id="pfCategory">

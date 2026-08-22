@@ -174,7 +174,7 @@
         '</div>' +
         '<div class="actions">' +
           '<button class="btn-primary" data-save="' + r.id + '">Save</button>' +
-          '<button class="btn-danger" data-del="' + r.id + '" data-path="' + esc(r.storage_path || '') + '">Del</button>' +
+          '<button class="btn-danger" data-del="' + r.id + '" data-path="' + esc(r.storage_path || '') + '">Delete</button>' +
         '</div>';
       list.appendChild(card);
     });
@@ -221,12 +221,66 @@
       toast(res.error ? 'Save failed: ' + res.error.message : 'Saved');
       if (!res.error) loadPortfolio();
     } else if (delBtn) {
-      if (!confirm('Delete this photo?')) return;
-      var path = delBtn.dataset.path;
-      if (path) await sb.storage.from('portfolio').remove([path]);
-      await sb.from('portfolio_items').delete().eq('id', delBtn.dataset.del);
+      if (!confirm('Delete this photo? It will be removed from the website.')) return;
+      btnDelPhoto(delBtn);
+    }
+  });
+
+  async function btnDelPhoto(delBtn) {
+    delBtn.disabled = true;
+    delBtn.textContent = 'Deleting...';
+    var path = delBtn.dataset.path;
+    if (path) {
+      var rm = await sb.storage.from('portfolio').remove([path]);
+      if (rm.error) toast('Storage cleanup warning: ' + rm.error.message);
+    }
+    var res = await sb.from('portfolio_items').delete().eq('id', delBtn.dataset.del);
+    if (res.error) { toast('Delete failed: ' + res.error.message); delBtn.disabled = false; delBtn.textContent = 'Delete'; return; }
+    toast('Photo deleted');
+    loadPortfolio();
+  }
+
+  $('importGalleryBtn').addEventListener('click', async function () {
+    var btn = this;
+    if (!confirm('Scan the current homepage and add all its photos to the portfolio manager?')) return;
+    btn.disabled = true;
+    btn.textContent = 'Importing...';
+    try {
+      var html = await fetch('/index.html', { cache: 'no-store' }).then(function (r) { return r.text(); });
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      var nodes = Array.from(doc.querySelectorAll('.portfolio-item'));
+      if (!nodes.length) { toast('No photos found on the page.'); return; }
+      var existing = new Set((await sb.from('portfolio_items').select('image_url')).data
+        .map(function (r) { return r.image_url.replace(/^https?:\/\/[^/]+/, ''); }));
+      var rows = [];
+      nodes.forEach(function (node, i) {
+        var img = node.querySelector('img');
+        if (!img || !img.getAttribute('src')) return;
+        var url = img.getAttribute('src');
+        if (url.indexOf('/') !== 0 && !/^https?:/.test(url)) url = '/' + url;
+        if (existing.has(url)) return;
+        existing.add(url);
+        var label = node.querySelector('.portfolio-overlay span');
+        rows.push({
+          title: (node.querySelector('.portfolio-overlay h3') || {}).textContent || ('Photo ' + (i + 1)),
+          category: node.dataset.category || 'wedding',
+          image_url: url,
+          sort_order: i,
+          is_visible: true
+        });
+      });
+      if (!rows.length) { toast('All photos are already imported.'); return; }
+      for (var i = 0; i < rows.length; i += 50) {
+        var ins = await sb.from('portfolio_items').insert(rows.slice(i, i + 50));
+        if (ins.error) { toast('Import error: ' + ins.error.message); break; }
+      }
+      toast(rows.length + ' photos imported');
       loadPortfolio();
-      toast('Deleted');
+    } catch (err) {
+      toast('Import failed: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Import existing gallery';
     }
   });
 
@@ -253,7 +307,7 @@
         '</div>' +
         '<div class="actions">' +
           '<button class="btn-primary" data-save="' + r.id + '">Save</button>' +
-          '<button class="btn-danger" data-del="' + r.id + '">Del</button>' +
+          '<button class="btn-danger" data-del="' + r.id + '">Delete</button>' +
         '</div>';
       list.appendChild(card);
     });
